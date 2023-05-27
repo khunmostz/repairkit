@@ -4,6 +4,7 @@ import 'package:get/get.dart';
 
 class SettingController extends GetxController {
   bool? toggleLang = false;
+
   void toggleLanguages() {
     toggleLang = !toggleLang!;
     if (toggleLang == false) {

@@ -3,13 +3,13 @@ import 'package:flutter_boilerplate/base/languages/languages_code.dart';
 import 'package:get/get.dart';
 
 class SettingController extends GetxController {
-  bool? toggle = false;
+  bool? toggleLang = false;
   void toggleLanguages() {
-    toggle = !toggle!;
-    if (toggle == false) {
+    toggleLang = !toggleLang!;
+    if (toggleLang == false) {
       Get.updateLocale(const Locale(LanguagesCode.JAPANESE_CODE));
     } else {
-      Get.updateLocale(const Locale('en'));
+      Get.updateLocale(const Locale(LanguagesCode.ENGLISH_CODE));
     }
   }
 }

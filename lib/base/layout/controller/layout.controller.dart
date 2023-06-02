@@ -1,12 +1,16 @@
+import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boilerplate/base/utils/constants/route.dart';
 import 'package:flutter_boilerplate/home/view/home.dart';
 import 'package:flutter_boilerplate/post/view/post.dart';
 import 'package:flutter_boilerplate/setting/view/setting.dart';
 import 'package:get/get.dart';
 
 class LayoutController extends GetxController {
-  int screenIndex = 0;
+ final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
 
+  //#region variable layout
+  int screenIndex = 0;
   List<Widget> screen = [
     const Home(),
     const Post(),
@@ -21,6 +25,27 @@ class LayoutController extends GetxController {
       "name": "Setting"
     },
   ];
+
+  //#endregion variable layout
+
+  @override
+  void onInit() {
+    // TODO: implement onInit
+    super.onInit();
+    authState();
+  }
+
+  Future authState()async{
+     _firebaseAuth.authStateChanges().listen((User? user) {
+        if (user == null) {
+          debugPrint('==== Go to Sign in ====');
+          Get.toNamed(RouteConstants.signIn);
+        }else{
+          debugPrint('==== Go to Home ====');
+          Get.offNamed(RouteConstants.layout);
+        }
+     });
+  }
 
   void changeScreen(int index) async {
     screenIndex = index;

@@ -20,3 +20,8 @@ class StatusCode {
   static String GATEWAY_TIMEOUT = "Gateway Timeout";
   static String SOMETING_WENT_WRONG = "Oops something went wrong";
 }
+
+class ToastStatus {
+  static String SUCCESS ='Success';
+  static String ERROR='Error';
+}

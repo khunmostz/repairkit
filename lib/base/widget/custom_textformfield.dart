@@ -3,18 +3,20 @@ import 'package:flutter/services.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 
 class CustomTextFormField extends StatelessWidget {
-  const CustomTextFormField({
-    super.key,
-    this.label,
-    this.controller,
-    this.onChanged,
-    this.validator,
-    this.onTap,
-    this.autovalidateMode,
-    this.maxLines,
-    this.inputFormatters,
-    this.keyboardType,
-  });
+  const CustomTextFormField(
+      {super.key,
+      this.label,
+      this.controller,
+      this.onChanged,
+      this.validator,
+      this.onTap,
+      this.autovalidateMode,
+      this.maxLines,
+      this.inputFormatters,
+      this.keyboardType,
+      this.isDense,
+      this.hintText,
+      this.showBorder, this.suffixIcon});
 
   final String? label;
   final TextEditingController? controller;
@@ -25,6 +27,10 @@ class CustomTextFormField extends StatelessWidget {
   final int? maxLines;
   final List<TextInputFormatter>? inputFormatters;
   final TextInputType? keyboardType;
+  final bool? isDense;
+  final String? hintText;
+  final bool? showBorder;
+  final Widget? suffixIcon;
 
   @override
   Widget build(BuildContext context) {
@@ -52,9 +58,17 @@ class CustomTextFormField extends StatelessWidget {
             inputFormatters: inputFormatters,
             keyboardType: keyboardType,
             decoration: InputDecoration(
+              isDense: isDense,
               filled: true,
               fillColor: ColorConstants.COLOR_WHITE,
+              hintText: hintText,
               border: InputBorder.none,
+              suffixIcon: suffixIcon,
+              enabledBorder: showBorder == true
+                  ? const OutlineInputBorder(
+                      borderSide: BorderSide(),
+                    )
+                  : null,
             ),
           ),
         ),

@@ -8,7 +8,6 @@ import 'package:get/get.dart';
 class Home extends GetView<HomeController> {
   Home({super.key});
 
-
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -33,9 +32,11 @@ class Home extends GetView<HomeController> {
         ),
         actions: [
           InkWell(
-            onTap: () {},
+            onTap: () {
+              Get.toNamed('/cart');
+            },
             child: Padding(
-              padding: const EdgeInsets.only(right: 8),
+              padding: const EdgeInsets.only(right: 8, left: 8),
               child:
                   Icon(Icons.shopping_cart, color: ColorConstants.COLOR_YELLOW),
             ),
@@ -66,11 +67,16 @@ class Home extends GetView<HomeController> {
                   childAspectRatio: 4 / 3,
                   children: controller.categoryList
                       .map(
-                        (e) => Container(
-                          color: ColorConstants.COLOR_BLUE,
-                          margin: const EdgeInsets.all(8),
-                          padding: const EdgeInsets.all(18),
-                          child: Image.asset(e['image'].toString()),
+                        (e) => InkWell(
+                          onTap: () {
+                            Get.toNamed('/product');
+                          },
+                          child: Container(
+                            color: ColorConstants.COLOR_BLUE,
+                            margin: const EdgeInsets.all(8),
+                            padding: const EdgeInsets.all(18),
+                            child: Image.asset(e['image'].toString()),
+                          ),
                         ),
                       )
                       .toList(),
@@ -96,9 +102,6 @@ class Home extends GetView<HomeController> {
                     ),
                     itemCount: controller.bannerCarousel.length),
               ),
-              // const SizedBox(
-              //   height: 50,
-              // ),
             ],
           ),
         ),

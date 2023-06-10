@@ -3,6 +3,8 @@ import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/size.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
 import 'package:flutter_boilerplate/base/widget/custom_textformfield.dart';
+import 'package:flutter_boilerplate/base/widget/custom_overlay.dart';
+import 'package:flutter_boilerplate/cart/controller/cart.controller.dart';
 import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:flutter_boilerplate/product/model/product.model.dart';
 import 'package:get/get.dart';
@@ -15,6 +17,13 @@ class Product extends GetView<ProductController> {
     return BaseScaffold(
       onBackPress: () => Get.back(),
       titleName: 'Product',
+      onCartPress: () async {
+        await Get.showOverlay(
+          asyncFunction: () => Get.find<CartController>().calculateTotalCart(),
+          loadingWidget: const CustomOverlay(),
+        );
+        Get.toNamed('/cart');
+      },
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
         child: Column(
@@ -43,15 +52,32 @@ class Product extends GetView<ProductController> {
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
                   ),
-                  itemCount: 10,
+                  itemCount: controller.product?.length,
                   itemBuilder: (context, index) {
                     return InkWell(
-                      onTap: () {
+                      onTap: () async {
+                        controller.setRentalActive(
+                            controller.product?[index].rentalId ?? 0);
+                        await Get.showOverlay(
+                            asyncFunction: () => controller.getRental(),
+                            loadingWidget: const CustomOverlay());
                         Get.toNamed(
                           '/product/detail',
-                          // arguments: ProductModel(
-
-                          // ),
+                          arguments: ProductModel(
+                            rentalId: controller.product?[index].rentalId,
+                            productCategory:
+                                controller.product?[index].productCategory,
+                            productName: controller.product?[index].productName,
+                            productPrice:
+                                controller.product?[index].productPrice,
+                            productDate: controller.product?[index].productDate,
+                            productAmount:
+                                controller.product?[index].productAmount,
+                            productInfo: controller.product?[index].productInfo,
+                            productImage:
+                                controller.product?[index].productImage,
+                            rating: controller.product?[index].rating,
+                          ),
                         );
                       },
                       child: Container(
@@ -62,7 +88,7 @@ class Product extends GetView<ProductController> {
                           fit: StackFit.expand,
                           children: [
                             Image.network(
-                              'https://assets.entrepreneur.com/content/3x2/2000/20180703190744-rollsafe-meme.jpeg',
+                              controller.product?[index].productImage ?? '',
                               fit: BoxFit.cover,
                             ),
                             Positioned(
@@ -75,7 +101,8 @@ class Product extends GetView<ProductController> {
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
-                                    'Product Name',
+                                    controller.product?[index].productName ??
+                                        '',
                                     style: TextStyle(
                                         color: ColorConstants.COLOR_WHITE),
                                   ),

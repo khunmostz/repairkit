@@ -1,6 +1,7 @@
 import 'package:flutter_boilerplate/base/layout/layout.dart';
 import 'package:flutter_boilerplate/cart/view/cart.dart';
 import 'package:flutter_boilerplate/home/view/home.dart';
+import 'package:flutter_boilerplate/payment/view/payment.dart';
 import 'package:flutter_boilerplate/product/view/product.dart';
 import 'package:flutter_boilerplate/product/view/product_detail.dart';
 import 'package:flutter_boilerplate/setting/view/setting.dart';
@@ -17,7 +18,7 @@ class RouteConstants {
   static String product = '/product';
   static String productDetail = '/product/detail';
   static String cart = '/cart';
-
+  static String payment = '/payment';
   static List<GetPage> page = [
     GetPage(name: layout, page: () => const Layout()),
     GetPage(name: home, page: () => Home()),
@@ -27,5 +28,6 @@ class RouteConstants {
     GetPage(name: product, page: () => const Product()),
     GetPage(name: productDetail, page: () => const ProductDetail()),
     GetPage(name: cart, page: () => const Cart()),
+     GetPage(name: payment, page: () =>  Payment()),
   ];
 }

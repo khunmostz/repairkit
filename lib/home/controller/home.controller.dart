@@ -19,7 +19,7 @@ class HomeController extends GetxController {
       'image': 'assets/icons/hammer.png',
     },
     {
-      'name': 'hand-saw',
+      'name': 'saw',
       'image': 'assets/icons/hand-saw.png',
     },
     {
@@ -43,4 +43,9 @@ class HomeController extends GetxController {
       'image': 'assets/icons/equipment.png',
     },
   ];
+
+  String? activeCategory;
+  void setActiveCategory(String category){
+    activeCategory = category;
+  }
 }

@@ -1,6 +1,8 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/size.dart';
+import 'package:flutter_boilerplate/base/widget/custom_overlay.dart';
+import 'package:flutter_boilerplate/cart/controller/cart.controller.dart';
 import 'package:flutter_boilerplate/home/controller/home.controller.dart';
 import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
@@ -32,14 +34,34 @@ class Home extends GetView<HomeController> {
         ),
         actions: [
           InkWell(
-            onTap: () {
+            onTap: () async {
+              await Get.showOverlay(
+                asyncFunction: () =>
+                    Get.find<CartController>().calculateTotalCart(),
+                loadingWidget: const CustomOverlay(),
+              );
               Get.toNamed('/cart');
+
             },
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8, left: 8),
-              child:
-                  Icon(Icons.shopping_cart, color: ColorConstants.COLOR_YELLOW),
-            ),
+            child: GetBuilder<CartController>(
+                // id: 'addcart',
+                builder: (cartController) {
+              return Padding(
+                padding: const EdgeInsets.only(right: 8, left: 8),
+                child: Center(
+                  child: Badge(
+                    label: cartController.cartList!.isNotEmpty
+                        ? Text(cartController.cartList?.length.toString() ?? '')
+                        : null,
+                    isLabelVisible:
+                        cartController.cartList!.isNotEmpty ? true : false,
+                    // alignment: AlignmentDirectional.center,
+                    child: Icon(Icons.shopping_cart,
+                        color: ColorConstants.COLOR_YELLOW),
+                  ),
+                ),
+              );
+            }),
           ),
         ],
       ),
@@ -69,6 +91,8 @@ class Home extends GetView<HomeController> {
                       .map(
                         (e) => InkWell(
                           onTap: () {
+                            print(e['name']);
+                            controller.setActiveCategory(e['name'] ?? '');
                             Get.toNamed('/product');
                           },
                           child: Container(

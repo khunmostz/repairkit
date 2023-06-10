@@ -69,6 +69,11 @@ class CustomTextFormField extends StatelessWidget {
                       borderSide: BorderSide(),
                     )
                   : null,
+                  focusedBorder: showBorder == true
+                  ? const OutlineInputBorder(
+                      borderSide: BorderSide(),
+                    )
+                  : null
             ),
           ),
         ),

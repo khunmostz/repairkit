@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
+import 'package:flutter_boilerplate/cart/controller/cart.controller.dart';
+import 'package:get/get.dart';
 
 class BaseScaffold extends StatelessWidget {
   const BaseScaffold({
@@ -9,6 +11,7 @@ class BaseScaffold extends StatelessWidget {
     this.onCartPress,
     this.body,
     this.bottomNavigationBar,
+    this.showCart = true,
   });
 
   final String? titleName;
@@ -16,6 +19,7 @@ class BaseScaffold extends StatelessWidget {
   final Function()? onCartPress;
   final Widget? body;
   final Widget? bottomNavigationBar;
+  final bool? showCart;
 
   @override
   Widget build(BuildContext context) {
@@ -31,14 +35,24 @@ class BaseScaffold extends StatelessWidget {
           child: const Icon(Icons.arrow_back),
         ),
         actions: [
-          InkWell(
-            onTap: onCartPress,
-            child: Padding(
-              padding: const EdgeInsets.only(right: 8, left: 8),
-              child:
-                  Icon(Icons.shopping_cart, color: ColorConstants.COLOR_YELLOW),
-            ),
-          ),
+         showCart == true ? GetBuilder<CartController>(
+           builder: (cartController) {
+             return InkWell(
+               onTap: onCartPress,
+               child: Padding(
+                padding: const EdgeInsets.only(right: 8, left: 8),
+                 child: Center(
+                   child: Badge(
+                     isLabelVisible:  cartController.cartList!.isNotEmpty? true : false,
+                     label: cartController.cartList!.isNotEmpty? Text(cartController.cartList?.length.toString() ?? '') : null,
+                     child:
+                          Icon(Icons.shopping_cart, color: ColorConstants.COLOR_YELLOW),
+                   ),
+                 ),
+               ),
+             );
+           }
+         ) : Container(),
         ],
       ),
       body: body,

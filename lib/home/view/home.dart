@@ -44,7 +44,6 @@ class Home extends GetView<HomeController> {
 
             },
             child: GetBuilder<CartController>(
-                // id: 'addcart',
                 builder: (cartController) {
               return Padding(
                 padding: const EdgeInsets.only(right: 8, left: 8),
@@ -55,7 +54,6 @@ class Home extends GetView<HomeController> {
                         : null,
                     isLabelVisible:
                         cartController.cartList!.isNotEmpty ? true : false,
-                    // alignment: AlignmentDirectional.center,
                     child: Icon(Icons.shopping_cart,
                         color: ColorConstants.COLOR_YELLOW),
                   ),
@@ -91,15 +89,14 @@ class Home extends GetView<HomeController> {
                       .map(
                         (e) => InkWell(
                           onTap: () {
-                            print(e['name']);
                             controller.setActiveCategory(e['name'] ?? '');
                             Get.toNamed('/product');
                           },
                           child: Container(
                             color: ColorConstants.COLOR_BLUE,
                             margin: const EdgeInsets.all(8),
-                            padding: const EdgeInsets.all(18),
-                            child: Image.asset(e['image'].toString()),
+                            padding: const EdgeInsets.all(10),
+                            child: Image.asset(e['image'].toString(),scale: 0.5),
                           ),
                         ),
                       )

@@ -12,6 +12,7 @@ class BaseScaffold extends StatelessWidget {
     this.body,
     this.bottomNavigationBar,
     this.showCart = true,
+    this.resizeToAvoidBottomInset,
   });
 
   final String? titleName;
@@ -20,10 +21,12 @@ class BaseScaffold extends StatelessWidget {
   final Widget? body;
   final Widget? bottomNavigationBar;
   final bool? showCart;
+  final bool? resizeToAvoidBottomInset;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       backgroundColor: ColorConstants.COLOR_WHITE,
       appBar: AppBar(
         backgroundColor: ColorConstants.COLOR_BLUE,

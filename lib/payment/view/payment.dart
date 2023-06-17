@@ -2,6 +2,7 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/services.dart';
 import 'package:flutter_boilerplate/base/utils/constants/enum.dart';
+import 'package:flutter_boilerplate/base/utils/constants/route.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
 import 'package:flutter_boilerplate/base/widget/custom_button.dart';
 import 'package:flutter_boilerplate/base/widget/custom_textformfield.dart';
@@ -102,45 +103,41 @@ class _PaymentState extends State<Payment> {
                     setState(() {});
                   },
                 ),
-                CustomButton(
-                  onTap: () async {
-                    // print(expController.text);
-                    await OmiseService()
-                        .getToken(
-                      cardName: cardNameController.text,
-                      cardNumber: cardNumberController.text,
-                      expMonth: int.parse(expController.text.split('/')[0]),
-                      expYear: int.parse(expController.text.split('/')[1]),
-                      cvc: int.parse(cvcController.text),
-                    )
-                        .then((value) async {
-                      var response = await OmiseService().chargesCard(
-                        description:
-                            'Buy with ${FirebaseAuth.instance.currentUser?.email}',
-                        amount: Get.find<CartController>().totalCart.toString(),
-                      );
-                      print(response);
-
-                      if (mounted && response['status'] == 'successful') {
-                        Get.find<CartController>().cartList?.clear();
-                        Get.offNamed('/layout');
-                      } else {
-                        showToast(
-                          context,
-                          toastText: 'Payment failed',
-                          status: ToastStatus.ERROR,
+                Padding(
+                  padding: const EdgeInsets.only(bottom: 40),
+                  child: CustomButton(
+                    text: 'Confirm',
+                    onTap: () async {
+                      await OmiseService()
+                          .getToken(
+                        cardName: cardNameController.text,
+                        cardNumber: cardNumberController.text,
+                        expMonth: int.parse(expController.text.split('/')[0]),
+                        expYear: int.parse(expController.text.split('/')[1]),
+                        cvc: int.parse(cvcController.text),
+                      )
+                          .then((value) async {
+                        var response = await OmiseService().chargesCard(
+                          description:
+                              'Buy with ${FirebaseAuth.instance.currentUser?.email}',
+                          amount: Get.find<CartController>().totalCart.toString(),
                         );
-                      }
-                    });
-                  },
+                        // print(response);
+                
+                        if (mounted && response['status'] == 'successful') {
+                          Get.find<CartController>().cartList?.clear();
+                          Get.offNamed(RouteConstants.paymentSuccessful);
+                        } else {
+                          showToast(
+                            context,
+                            toastText: 'Payment failed',
+                            status: ToastStatus.ERROR,
+                          );
+                        }
+                      });
+                    },
+                  ),
                 ),
-                // ElevatedButton(
-                //   onPressed: () async {
-                //     // await OmiseService().getToken();
-                //     // OmiseService().chargesCard();
-                //   },
-                //   child: Text('test'),
-                // )
               ],
             ),
           ),

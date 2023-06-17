@@ -10,7 +10,7 @@ import "package:flutter_boilerplate/signin/view/controller/signin.controller.dar
 import "package:get/get.dart";
 
 class SignIn extends GetView<SignInController> {
-   SignIn({super.key});
+  SignIn({super.key});
 
   GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
@@ -51,11 +51,16 @@ class SignIn extends GetView<SignInController> {
                         if (value!.isEmpty) {
                           return "this field is required".tr;
                         }
+                        if (!GetUtils.isEmail(value)) {
+                          return "Email is not valid";
+                        }
                       },
                     ),
                     CustomTextFormField(
                       label: 'password'.tr,
                       controller: _passwordController,
+                      maxLines: 1,
+                      obscureText: true,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
                       validator: (value) {
                         if (value!.isEmpty) {
@@ -82,15 +87,15 @@ class SignIn extends GetView<SignInController> {
                       },
                     ),
                     Padding(
-                      padding:const  EdgeInsets.only(top: 24),
+                      padding: const EdgeInsets.only(top: 24),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Text(
+                          Text(
                             'Don’t have an account?'.tr,
                           ),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Get.offNamed('/signUp');
                             },
                             child: Text(

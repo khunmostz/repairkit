@@ -8,15 +8,30 @@ class SignInController extends GetxController {
   FirebaseAuth firebaseAuth = FirebaseAuth.instance;
 
   Future<void> signIn(BuildContext context,
-      {String? email, String? password}) async {
+      {required String email, required String password}) async {
     try {
-      firebaseAuth.signInWithEmailAndPassword(
-          email: email ?? '', password: password ?? '');
-       showToast(context,toastText: 'login succesfully'.tr,status: ToastStatus.SUCCESS);
+      await firebaseAuth
+          .signInWithEmailAndPassword(email: email, password: password)
+          .then((value) => showToast(context,
+              toastText: 'login succesfully'.tr, status: ToastStatus.SUCCESS));
+
       update();
-    } catch (e) {
+    } on FirebaseAuthException catch (e) {
       debugPrint(e.toString());
-      showToast(context,toastText: 'login failed'.tr,status: ToastStatus.ERROR);
+      switch (e.code) {
+        case 'invalid-email':
+          showToast(context, toastText: e.code, status: ToastStatus.ERROR);
+          break;
+        case 'wrong-password':
+          showToast(context, toastText: e.code, status: ToastStatus.ERROR);
+          break;
+        case 'user-not-found':
+          showToast(context, toastText: e.code, status: ToastStatus.ERROR);
+          break;
+        case 'user-disabled':
+          showToast(context, toastText: e.code, status: ToastStatus.ERROR);
+          break;
+      }
     }
   }
 }

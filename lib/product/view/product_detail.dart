@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/enum.dart';
+import 'package:flutter_boilerplate/base/utils/constants/route.dart';
 import 'package:flutter_boilerplate/base/utils/constants/size.dart';
 import 'package:flutter_boilerplate/base/widget/base_button.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
@@ -13,6 +14,8 @@ import 'package:flutter_boilerplate/product/model/product.model.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
+
+import '../model/rental.model.dart';
 
 class ProductDetail extends GetView<ProductController> {
   const ProductDetail({super.key});
@@ -31,12 +34,13 @@ class ProductDetail extends GetView<ProductController> {
           controller.setDefaultAmount();
           Get.back();
         },
-        onCartPress: ()async {
-         await Get.showOverlay(
-              asyncFunction: () =>
-                  Get.find<CartController>().calculateTotalCart(),
-              loadingWidget: const CustomOverlay(),);
-          Get.toNamed('/cart');
+        onCartPress: () async {
+          await Get.showOverlay(
+            asyncFunction: () =>
+                Get.find<CartController>().calculateTotalCart(),
+            loadingWidget: const CustomOverlay(),
+          );
+          Get.toNamed(RouteConstants.cart);
         },
         body: ListView(
           children: [
@@ -110,6 +114,9 @@ class ProductDetail extends GetView<ProductController> {
                   InkWell(
                     onTap: () {
                       debugPrint('chat');
+                      Get.toNamed(
+                        RouteConstants.chat,
+                      );
                     },
                     child: Icon(
                       Icons.chat,
@@ -167,10 +174,6 @@ class ProductDetail extends GetView<ProductController> {
                             mainAxisSize: MainAxisSize.min,
                             children: [
                               dialogTextRow(
-                                title: 'productName',
-                                widget: Text('name'),
-                              ),
-                              dialogTextRow(
                                 title: 'Day of rent',
                                 unit: 'Day',
                                 widget: GetBuilder<ProductController>(
@@ -211,6 +214,13 @@ class ProductDetail extends GetView<ProductController> {
                                       controller.calculateTotalPrice(
                                           productModel.productPrice?.toInt() ??
                                               0);
+
+                                      print(controller.amountRent.last);
+                                      print(value);
+                                      var cal = controller.amountRent.last -
+                                          value!.toInt();
+                                      print(
+                                          '${value} - ${controller.amountRent.last} = ${cal}');
                                     },
                                   );
                                 }),

@@ -17,6 +17,7 @@ class ProductController extends GetxController {
   void setRentalActive(int id) {
     rentalActive = id;
   }
+
   RentalModel? rentalModel;
   //#endregion variable product
 
@@ -25,17 +26,17 @@ class ProductController extends GetxController {
   List<String> dayRent = ['1', '2', '3', '4', '5', '6', '7'];
   int? amount = 1;
   List<int> amountRent = [];
-  void setAmountRent(int amountLength){
+  void setAmountRent(int amountLength) {
     amountRent.clear();
-   for (var i = 1; i < amountLength; i++) {
-     amountRent.add(i);
-   }
+    for (var i = 1; i < amountLength; i++) {
+      amountRent.add(i);
+    }
   }
 
-   int? totalPrice = 0;
-   void setTotalPrice(int price){
+  int? totalPrice = 0;
+  void setTotalPrice(int price) {
     totalPrice = price;
-   }
+  }
   //#endregion variable product
 
   @override
@@ -53,11 +54,8 @@ class ProductController extends GetxController {
             .where('productCategory',
                 isEqualTo: Get.find<HomeController>().activeCategory)
             .get();
-        
-
 
         for (var element in response.docs) {
-
           Map<String, dynamic> data = element.data();
           debugPrint(data['productName']);
 
@@ -88,16 +86,17 @@ class ProductController extends GetxController {
     }
   }
 
+
   Future<void> getRental() async {
     try {
       var response = await _firebaseFirestore
           .collection('rental')
           .where('rentalId', isEqualTo: rentalActive)
           .get();
-        for (var rental in response.docs) {
-          var jsonData = json.encode(rental.data());
-          rentalModel = RentalModel.fromJson(json.decode(jsonData));
-        }  
+      for (var rental in response.docs) {
+        var jsonData = json.encode(rental.data());
+        rentalModel = RentalModel.fromJson(json.decode(jsonData));
+      }
     } catch (e) {
       debugPrint(e.toString());
     }
@@ -116,12 +115,12 @@ class ProductController extends GetxController {
     update();
   }
 
-  void setDefaultAmount(){
+  void setDefaultAmount() {
     day = '1';
     amount = 1;
   }
 
-  void calculateTotalPrice(int? price){
+  void calculateTotalPrice(int? price) {
     totalPrice = price;
     var totalDay = (totalPrice ?? 0) * int.parse(day ?? '0');
     // print(totalDay);

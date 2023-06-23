@@ -9,13 +9,12 @@ import 'package:flutter_boilerplate/base/widget/custom_overlay.dart';
 import 'package:flutter_boilerplate/base/widget/custom_toast.dart';
 import 'package:flutter_boilerplate/cart/controller/cart.controller.dart';
 import 'package:flutter_boilerplate/cart/model/cart.model.dart';
+import 'package:flutter_boilerplate/chat/controller/chat.controller.dart';
 import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:flutter_boilerplate/product/model/product.model.dart';
 import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
-
-import '../model/rental.model.dart';
 
 class ProductDetail extends GetView<ProductController> {
   const ProductDetail({super.key});
@@ -86,7 +85,7 @@ class ProductDetail extends GetView<ProductController> {
                   color: Colors.amber,
                 ),
                 onRatingUpdate: (rating) {
-                  print(rating);
+                  debugPrint(rating.toString());
                 },
               ),
             ),
@@ -114,6 +113,7 @@ class ProductDetail extends GetView<ProductController> {
                   InkWell(
                     onTap: () {
                       debugPrint('chat');
+                      Get.find<ChatController>().userMode = ChatMode.USER;
                       Get.toNamed(
                         RouteConstants.chat,
                       );
@@ -214,13 +214,6 @@ class ProductDetail extends GetView<ProductController> {
                                       controller.calculateTotalPrice(
                                           productModel.productPrice?.toInt() ??
                                               0);
-
-                                      print(controller.amountRent.last);
-                                      print(value);
-                                      var cal = controller.amountRent.last -
-                                          value!.toInt();
-                                      print(
-                                          '${value} - ${controller.amountRent.last} = ${cal}');
                                     },
                                   );
                                 }),
@@ -231,8 +224,7 @@ class ProductDetail extends GetView<ProductController> {
                                     title: 'Total price',
                                     widget: Center(
                                         child: Text(
-                                            controller.totalPrice.toString() ??
-                                                '')),
+                                            controller.totalPrice.toString())),
                                     unit: 'Bath');
                               }),
                               GetBuilder<ProductController>(builder: (_) {

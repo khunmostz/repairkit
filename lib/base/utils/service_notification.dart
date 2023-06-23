@@ -89,5 +89,6 @@ class NotificationService {
     }).onError((err) {
       // Error getting token.
     });
+
   }
 }

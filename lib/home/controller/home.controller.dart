@@ -2,6 +2,7 @@ import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boilerplate/base/utils/constants/enum.dart';
 import 'package:flutter_boilerplate/base/utils/service_notification.dart';
 import 'package:get/get.dart';
 
@@ -18,35 +19,35 @@ class HomeController extends GetxController {
 
   List<Map<String, String>> categoryList = [
     {
-      'name': 'drill',
+      'name': ProductType.DRILL,
       'image': 'assets/icons/drill.png',
     },
     {
-      'name': 'hammer',
+      'name': ProductType.HAMMER,
       'image': 'assets/icons/hammer.png',
     },
     {
-      'name': 'saw',
+      'name': ProductType.SAW,
       'image': 'assets/icons/hand-saw.png',
     },
     {
-      'name': 'planer',
+      'name': ProductType.PLANER,
       'image': 'assets/icons/planer.png',
     },
     {
-      'name': 'pliers-tool',
+      'name': ProductType.PLIERS_TOOL,
       'image': 'assets/icons/pliers-tool.png',
     },
     {
-      'name': 'screwdriver',
+      'name': ProductType.SCREWDRIVER,
       'image': 'assets/icons/screwdriver.png',
     },
     {
-      'name': 'tape',
+      'name': ProductType.TAPE,
       'image': 'assets/icons/tape.png',
     },
     {
-      'name': 'equipment',
+      'name': ProductType.EQUIPMENT,
       'image': 'assets/icons/equipment.png',
     },
   ];
@@ -58,7 +59,7 @@ class HomeController extends GetxController {
     updateToken();
   }
 
-  String? activeCategory;
+  String? activeCategory = ProductType.DRILL;
   void setActiveCategory(String category) {
     activeCategory = category;
   }

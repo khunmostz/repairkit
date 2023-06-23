@@ -1,3 +1,5 @@
+import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/route.dart';
@@ -26,7 +28,7 @@ class Profile extends GetView<ProfileController> {
                   backgroundColor: ColorConstants.COLOR_BLUE,
                   radius: 40,
                 ),
-                const Text('นายมีเงิน รวยมาก'),
+                 Text(FirebaseAuth.instance.currentUser?.email ?? ''),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -34,7 +36,20 @@ class Profile extends GetView<ProfileController> {
                     mainAxisAlignment: MainAxisAlignment.spaceBetween,
                     children: [
                       ...controller.itemColumnProfile.map(
-                        (e) => _itemColumnProfile(title: e['title'],icon: e['icon']),
+                        (e) => InkWell(
+                          onTap: (){
+                            FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
+                            firebaseMessaging.sendMessage(
+                              to: 'fTyC3wj7R2uza8CSLRB3qp:APA91bHyJoBormuhwI1sOaWW8HI8E0dKyukgCarapRymFm_tCJKJ1PG1hRFOmX1-a_poc5onqgJNSiIW94W3FjLoNfh8BplWBwoBHcYl1OXON7uGtG0K4VrxiDZed0ckcc12DQ9Y4MP0',
+                              data: {
+                                "body": "test"
+                              },
+                              messageType: 'topic',
+                              messageId: 'asdas',
+                              collapseKey: 'asdasd',
+                            );
+                          },
+                          child: _itemColumnProfile(title: e['title'],icon: e['icon'])),
                       ),
                     ],
                   ),

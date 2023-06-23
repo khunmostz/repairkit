@@ -83,11 +83,13 @@ class ProductController extends GetxController {
       } catch (e) {
         debugPrint(e.toString());
       }
+    }else{
+      debugPrint('==== Fetch Product Error ====');
     }
   }
 
 
-  Future<void> getRental() async {
+  Future<void> getRentalById() async {
     try {
       var response = await _firebaseFirestore
           .collection('rental')

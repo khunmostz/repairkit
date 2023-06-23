@@ -1,37 +1,57 @@
 import 'dart:convert';
 
-ChatMessage chatMessageFromJson(String str) => ChatMessage.fromJson(json.decode(str));
+import 'package:cloud_firestore/cloud_firestore.dart';
+
+ChatMessage chatMessageFromJson(String str) =>
+    ChatMessage.fromJson(json.decode(str));
 
 String chatMessageToJson(ChatMessage data) => json.encode(data.toJson());
 
 class ChatMessage {
-    String? content;
-    bool? isSender;
+  String? messageId;
+  String? message;
+  String? messageType;
+  bool? isSender;
+  DateTime? date;
 
-    ChatMessage({
-        this.content,
-        this.isSender,
-    });
+  ChatMessage({
+    this.messageId,
+    this.message,
+    this.messageType,
+    this.isSender,
+    this.date,
+  });
 
-    ChatMessage copyWith({
-        String? content,
-        bool? isSender,
-    }) => 
-        ChatMessage(
-            content: content ?? this.content,
-            isSender: isSender ?? this.isSender,
-        );
+  ChatMessage copyWith({
+    String? messageId,
+    String? message,
+    String? messageType,
+    bool? isSender,
+    DateTime? date,
+  }) =>
+      ChatMessage(
+        messageId: messageId ?? this.messageId,
+        message: message ?? this.message,
+        messageType: messageType ?? this.messageType,
+        isSender: isSender ?? this.isSender,
+        date: date ?? this.date,
+      );
 
-    factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
-        content: json["content"],
+  factory ChatMessage.fromJson(Map<String, dynamic> json) => ChatMessage(
+        messageId: json['messageId'],
+        message: json["message"],
+        messageType: json['messageType'],
         isSender: json["isSender"],
-    );
+        date: json['date'],
+      );
 
-    Map<String, dynamic> toJson() => {
-        "content": content,
+  Map<String, dynamic> toMap() => {
+        "messageId": messageId,
+        "message": message,
+        "messageType": messageType,
         "isSender": isSender,
-    };
+        "date": date,
+      };
+
+  String toJson() => json.encode(toMap());
 }
-
-
- 

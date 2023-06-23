@@ -40,8 +40,12 @@ class Product extends GetView<ProductController> {
             ),
             GetBuilder<ProductController>(builder: (_) {
               if (controller.isLoading == true) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return SizedBox(
+                  width: size.width,
+                  height: size.height * 0.5,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               }
 
@@ -60,7 +64,7 @@ class Product extends GetView<ProductController> {
                         controller.setRentalActive(
                             controller.product?[index].rentalId ?? 0);
                         await Get.showOverlay(
-                            asyncFunction: () => controller.getRental(),
+                            asyncFunction: () => controller.getRentalById(),
                             loadingWidget: const CustomOverlay());
                         Get.toNamed(
                           '/product/detail',

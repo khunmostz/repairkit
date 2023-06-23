@@ -11,12 +11,12 @@ class CustomTextFormField extends StatelessWidget {
       this.validator,
       this.onTap,
       this.autovalidateMode,
-      this.maxLines,
+      this.maxLines = 1,
       this.inputFormatters,
       this.keyboardType,
       this.isDense,
       this.hintText,
-      this.showBorder, this.suffixIcon});
+      this.showBorder, this.suffixIcon, this.obscureText});
 
   final String? label;
   final TextEditingController? controller;
@@ -31,6 +31,7 @@ class CustomTextFormField extends StatelessWidget {
   final String? hintText;
   final bool? showBorder;
   final Widget? suffixIcon;
+  final bool? obscureText;
 
   @override
   Widget build(BuildContext context) {
@@ -57,6 +58,7 @@ class CustomTextFormField extends StatelessWidget {
             maxLines: maxLines,
             inputFormatters: inputFormatters,
             keyboardType: keyboardType,
+            obscureText: obscureText ?? false,
             decoration: InputDecoration(
               isDense: isDense,
               filled: true,

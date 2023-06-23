@@ -2,8 +2,8 @@ import 'package:get_it/get_it.dart';
 
 GetIt getIt = GetIt.instance;
 
-void setGetIt() {
-  getIt.registerLazySingleton(() => AppModel());
+void setupGetIt() {
+  getIt.registerLazySingleton(() => GlobalStateService());
 }
 
-class AppModel {}
+class GlobalStateService {}

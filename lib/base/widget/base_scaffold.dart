@@ -12,6 +12,8 @@ class BaseScaffold extends StatelessWidget {
     this.body,
     this.bottomNavigationBar,
     this.showCart = true,
+    this.resizeToAvoidBottomInset,
+    this.showBackPress = true,
   });
 
   final String? titleName;
@@ -20,39 +22,48 @@ class BaseScaffold extends StatelessWidget {
   final Widget? body;
   final Widget? bottomNavigationBar;
   final bool? showCart;
+  final bool? showBackPress;
+  final bool? resizeToAvoidBottomInset;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      resizeToAvoidBottomInset: resizeToAvoidBottomInset,
       backgroundColor: ColorConstants.COLOR_WHITE,
       appBar: AppBar(
         backgroundColor: ColorConstants.COLOR_BLUE,
         centerTitle: true,
         elevation: 0,
         title: Text(titleName ?? ''),
-        leading: InkWell(
+        leading: showBackPress == true ? InkWell(
           onTap: onBackPress,
           child: const Icon(Icons.arrow_back),
-        ),
+        ) : null,
         actions: [
-         showCart == true ? GetBuilder<CartController>(
-           builder: (cartController) {
-             return InkWell(
-               onTap: onCartPress,
-               child: Padding(
-                padding: const EdgeInsets.only(right: 8, left: 8),
-                 child: Center(
-                   child: Badge(
-                     isLabelVisible:  cartController.cartList!.isNotEmpty? true : false,
-                     label: cartController.cartList!.isNotEmpty? Text(cartController.cartList?.length.toString() ?? '') : null,
-                     child:
-                          Icon(Icons.shopping_cart, color: ColorConstants.COLOR_YELLOW),
-                   ),
-                 ),
-               ),
-             );
-           }
-         ) : Container(),
+          showCart == true
+              ? GetBuilder<CartController>(builder: (cartController) {
+                  return InkWell(
+                    onTap: onCartPress,
+                    child: Padding(
+                      padding: const EdgeInsets.only(right: 8, left: 8),
+                      child: Center(
+                        child: Badge(
+                          isLabelVisible: cartController.cartList!.isNotEmpty
+                              ? true
+                              : false,
+                          label: cartController.cartList!.isNotEmpty
+                              ? Text(
+                                  cartController.cartList?.length.toString() ??
+                                      '')
+                              : null,
+                          child: Icon(Icons.shopping_cart,
+                              color: ColorConstants.COLOR_YELLOW),
+                        ),
+                      ),
+                    ),
+                  );
+                })
+              : Container(),
         ],
       ),
       body: body,

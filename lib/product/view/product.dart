@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
+import 'package:flutter_boilerplate/base/utils/constants/route.dart';
 import 'package:flutter_boilerplate/base/utils/constants/size.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
 import 'package:flutter_boilerplate/base/widget/custom_textformfield.dart';
@@ -22,7 +23,7 @@ class Product extends GetView<ProductController> {
           asyncFunction: () => Get.find<CartController>().calculateTotalCart(),
           loadingWidget: const CustomOverlay(),
         );
-        Get.toNamed('/cart');
+        Get.toNamed(RouteConstants.cart);
       },
       body: Padding(
         padding: const EdgeInsets.symmetric(horizontal: 24),
@@ -39,8 +40,12 @@ class Product extends GetView<ProductController> {
             ),
             GetBuilder<ProductController>(builder: (_) {
               if (controller.isLoading == true) {
-                return const Center(
-                  child: CircularProgressIndicator(),
+                return SizedBox(
+                  width: size.width,
+                  height: size.height * 0.5,
+                  child: const Center(
+                    child: CircularProgressIndicator(),
+                  ),
                 );
               }
 
@@ -59,7 +64,7 @@ class Product extends GetView<ProductController> {
                         controller.setRentalActive(
                             controller.product?[index].rentalId ?? 0);
                         await Get.showOverlay(
-                            asyncFunction: () => controller.getRental(),
+                            asyncFunction: () => controller.getRentalById(),
                             loadingWidget: const CustomOverlay());
                         Get.toNamed(
                           '/product/detail',

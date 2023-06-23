@@ -25,3 +25,24 @@ class ToastStatus {
   static String SUCCESS ='Success';
   static String ERROR='Error';
 }
+
+class MessageType{
+  static String TEXT = 'text';
+  static String IMAGE = 'image';
+}
+
+class ChatMode{
+  static String USER = 'user';
+  static String RENTAL = 'rental';
+}
+
+class ProductType{
+  static String DRILL = 'drill';
+  static String HAMMER = 'hammer';
+  static String SAW = 'saw';
+  static String PLANER = 'planer';
+  static String PLIERS_TOOL = 'pliers-tool';
+  static String SCREWDRIVER = 'screwdriver';
+  static String TAPE = 'tape';
+  static String EQUIPMENT = 'equipment';
+}

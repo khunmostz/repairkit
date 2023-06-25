@@ -5,6 +5,8 @@ import 'package:flutter_boilerplate/base/layout/controller/layout.binding.dart';
 import 'package:flutter_boilerplate/base/theme/controller/theme.controller.dart';
 import 'package:flutter_boilerplate/base/theme/theme.dart';
 import 'package:flutter_boilerplate/base/utils/constants/route.dart';
+import 'package:flutter_boilerplate/base/utils/get_storage.dart';
+import 'package:flutter_boilerplate/base/utils/service_locator.dart';
 import 'package:flutter_boilerplate/base/utils/service_notification.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
@@ -28,11 +30,24 @@ Future<void> main() async {
   await NotificationService.setFcmPermission();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await setupTimezone();
+  setupGetIt();
+  getTokenFcmFromLocal();
   runApp(const MyApp());
 }
 
+void getTokenFcmFromLocal() {
+  if (GetStorageService.getFcmToLocal() != '' &&
+      GetStorageService.getFcmToLocal() != null ) {
+        String? fcmToken = GetStorageService.getFcmToLocal();
+    getIt<GlobalStateService>().setFcmToken(fcmToken);
+    debugPrint('==== fcmToken: ${ getIt<GlobalStateService>().fcmToken} ====');
+  }else{
+    debugPrint('==== fcmToken: Not found!! ====');
+  }
+}
+
 Future<void> setupTimezone() async {
-tz.initializeTimeZones();
+  tz.initializeTimeZones();
   var detroit = tz.getLocation('Asia/Bangkok');
   tz.setLocalLocation(detroit);
 }

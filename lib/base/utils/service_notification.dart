@@ -1,5 +1,7 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_boilerplate/base/utils/get_storage.dart';
+import 'package:flutter_boilerplate/base/utils/service_locator.dart';
 import 'package:flutter_boilerplate/home/controller/home.controller.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
@@ -83,12 +85,14 @@ class NotificationService {
     FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
       // TODO: If necessary send token to application server.
       debugPrint('refresh fcmToken: $fcmToken');
-      Get.find<HomeController>().updateToken(fcmToken: fcmToken);
+      GetStorageService.clearFcmToLocal();
+      GetStorageService.setFcmToLocal(fcmToken);
+      getIt<GlobalStateService>().setFcmToken(fcmToken);
+      // Get.find<HomeController>().updateToken(fcmToken: fcmToken);
       // Note: This callback is fired at each app startup and whenever a new
       // token is generated.
     }).onError((err) {
       // Error getting token.
     });
-
   }
 }

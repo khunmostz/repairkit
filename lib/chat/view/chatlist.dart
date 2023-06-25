@@ -20,39 +20,42 @@ class ChatList extends GetView<ChatController> {
         showCart: false,
         showBackPress: false,
         titleName: 'Chat List',
-        body: StreamBuilder<QuerySnapshot?>(
-          stream: controller.getRoom(),
-          // stream: null,
-          builder: (context, AsyncSnapshot<QuerySnapshot?> snapshot) {
-            if (snapshot.connectionState == ConnectionState.waiting) {
-              return Container(
-                child: const Center(
-                  child: CircularProgressIndicator(),
-                ),
-              );
-            }
-            if (!snapshot.hasData) {
-              return Container(
-                child: const Center(child: Text('ไม่มีคนคุย')),
-              );
-            }
-            return ListView.builder(
-              itemCount: snapshot.data?.docs.length,
-              itemBuilder: (context,index){
-              return InkWell(
-                onTap: (){
-                  controller.userMode = ChatMode.RENTAL;
-                  controller.activeChat = snapshot.data?.docs[index]['userName'];
-                  print(snapshot.data?.docs[index]['userName']);
-                  Get.toNamed(RouteConstants.chat);
-                },
-                child: ListTile(
-                  title: Text(snapshot.data?.docs[index]['userName'] ?? ''),
-                  // title: ,
-                ),
-              );
-            });
-          },
+        body: GetBuilder<ChatController>(
+          builder: (_) {
+            return StreamBuilder<QuerySnapshot?>(
+              stream: controller.getRoom(),
+              builder: (context, AsyncSnapshot<QuerySnapshot?> snapshot) {
+                if (snapshot.connectionState == ConnectionState.waiting) {
+                  return Container(
+                    child: const Center(
+                      child: CircularProgressIndicator(),
+                    ),
+                  );
+                }
+                if (!snapshot.hasData) {
+                  return Container(
+                    child: const Center(child: Text('ไม่มีคนคุย')),
+                  );
+                }
+                return ListView.builder(
+                  itemCount: snapshot.data?.docs.length,
+                  itemBuilder: (context,index){
+                  return InkWell(
+                    onTap: (){
+                      controller.userMode = ChatMode.RENTAL;
+                      controller.activeChat = snapshot.data?.docs[index]['userName'];
+                      print(snapshot.data?.docs[index]['roomId']);
+                      controller.setRoomId(snapshot.data?.docs[index]['roomId']);
+                      Get.toNamed(RouteConstants.chat,arguments: snapshot.data?.docs[index]['roomId']);
+                    },
+                    child: ListTile(
+                      title: Text(snapshot.data?.docs[index]['shopName'] ?? ''),
+                    ),
+                  );
+                });
+              },
+            );
+          }
         ),
       ),
     );

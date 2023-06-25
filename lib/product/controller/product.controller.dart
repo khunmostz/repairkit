@@ -99,6 +99,7 @@ class ProductController extends GetxController {
         var jsonData = json.encode(rental.data());
         rentalModel = RentalModel.fromJson(json.decode(jsonData));
       }
+
     } catch (e) {
       debugPrint(e.toString());
     }

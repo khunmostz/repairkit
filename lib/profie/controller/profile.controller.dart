@@ -1,6 +1,9 @@
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
+import 'package:flutter_boilerplate/base/utils/constants/route.dart';
+import 'package:flutter_boilerplate/base/utils/get_storage.dart';
 import 'package:get/get.dart';
 
 class ProfileController extends GetxController {
@@ -52,6 +55,10 @@ class ProfileController extends GetxController {
   ];
 
   Future<void> logout() async {
+    FirebaseMessaging messaging = FirebaseMessaging.instance;
+    GetStorageService.clearFcmToLocal();
+     messaging.deleteToken();
+    Get.offAllNamed(RouteConstants.signIn);
     await _firebaseAuth.signOut();
   }
 }

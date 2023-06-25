@@ -42,15 +42,15 @@ class MessageBubble extends StatelessWidget {
                 ),
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
-              child: Text(
-                DateFormat('dd-MM-yy HH:mm')
-                    .format(message.date ?? DateTime.now()),
-                style:
-                    TextStyle(color: ColorConstants.COLOR_GREY, fontSize: 10),
-              ),
-            )
+            // Padding(
+            //   padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
+            //   child: Text(
+            //     DateFormat('dd-MM-yy HH:mm')
+            //         .format(message.date ?? DateTime.now()),
+            //     style:
+            //         TextStyle(color: ColorConstants.COLOR_GREY, fontSize: 10),
+            //   ),
+            // )
           ],
         ),
       ],

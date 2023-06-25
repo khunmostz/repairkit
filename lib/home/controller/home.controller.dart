@@ -3,6 +3,8 @@ import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/enum.dart';
+import 'package:flutter_boilerplate/base/utils/get_storage.dart';
+import 'package:flutter_boilerplate/base/utils/service_locator.dart';
 import 'package:flutter_boilerplate/base/utils/service_notification.dart';
 import 'package:get/get.dart';
 
@@ -53,9 +55,10 @@ class HomeController extends GetxController {
   ];
 
   @override
-  void onReady() {
+  void onInit() {
     // TODO: implement onReady
-    super.onReady();
+    super.onInit();
+    getUserData();
     updateToken();
   }
 
@@ -64,20 +67,32 @@ class HomeController extends GetxController {
     activeCategory = category;
   }
 
-  Future<void> updateToken({String? fcmToken}) async {
-    String? fcm = await FirebaseMessaging.instance.getToken();
-
+  Future<void> updateToken() async {
     if (_firebaseAuth.currentUser?.uid != null) {
       try {
         await _firestore
             .collection('users')
             .doc(_firebaseAuth.currentUser?.email)
             .update({
-          'fcmToken': fcm,
+          'fcmToken': getIt<GlobalStateService>().fcmToken,
         });
       } catch (e) {
         debugPrint(e.toString());
       }
+    }
+  }
+
+  Future<void> getUserData() async {
+    try {
+      var user = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser?.email)
+          .get();
+      GetStorageService.clearFcmToLocal();
+      GetStorageService.setFcmToLocal(user.data()?['fcmToken']);
+      getIt<GlobalStateService>().setFcmToken(user.data()?['fcmToken']);
+    } catch (e) {
+      debugPrint(e.toString());
     }
   }
 }

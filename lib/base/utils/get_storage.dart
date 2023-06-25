@@ -6,8 +6,16 @@ class GetStorageService {
     return box.write('fcmToken', value);
   }
 
-  static String getFcmToLocal(String value){
+  static String? getFcmToLocal(){
     final box = GetStorage();
-    return box.read('fcmToken');
+    if (box.read('fcmToken') != null) {
+      return box.read('fcmToken');
+    }
+    return null;
+  }
+
+  static void clearFcmToLocal(){
+    final box = GetStorage();
+    box.remove('fcmToken');
   }
 }

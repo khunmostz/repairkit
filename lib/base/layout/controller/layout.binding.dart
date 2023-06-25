@@ -23,6 +23,7 @@ class LayoutBinding extends Bindings {
     Get.lazyPut<SettingController>(() => SettingController(), fenix: true);
      Get.lazyPut<ChatController>(() => ChatController(), fenix: true);
     Get.lazyPut<ProductController>(() => ProductController(), fenix: true);
+    // Get.put(ProductController());
     Get.lazyPut<CartController>(() => CartController(), fenix: true);
     Get.lazyPut<PaymentController>(() => PaymentController(), fenix: true);
     Get.lazyPut<ProfileController>(() => ProfileController(), fenix: true);

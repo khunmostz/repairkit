@@ -19,6 +19,8 @@ class ChatView extends GetView<ChatController> {
 
   @override
   Widget build(BuildContext context) {
+    String? roomId =Get.arguments;
+    
     return BaseScaffold(
       showCart: false,
       onBackPress: () => Get.back(),
@@ -27,6 +29,7 @@ class ChatView extends GetView<ChatController> {
       body: StreamBuilder<QuerySnapshot>(
           stream: controller.getMessage(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            // controller.getFcmFromChatRoom();
             if (snapshot.connectionState == ConnectionState.waiting &&
                 !snapshot.hasData) {
               return const SizedBox(
@@ -46,9 +49,8 @@ class ChatView extends GetView<ChatController> {
                   messageType: element['messageType'],
                   isSender: FirebaseAuth.instance.currentUser?.uid ==
                       element['sendBy'],
-                  date: DateTime.parse(element['date']),
+
                 ));
-                print('${element['message']}: ${element['timestamp']}');
               },
             );
 
@@ -110,7 +112,7 @@ class ChatView extends GetView<ChatController> {
                                 var now = tz.TZDateTime.now(detroit);
                                 controller.setMessage({
                                   'messageId':
-                                      '${FirebaseAuth.instance.currentUser?.uid}-${Get.find<ProductController>().rentalModel?.rentalName}',
+                                      '${FirebaseAuth.instance.currentUser?.uid}',
                                   'sendBy':
                                       '${FirebaseAuth.instance.currentUser?.uid}',
                                   'message': message,
@@ -124,7 +126,7 @@ class ChatView extends GetView<ChatController> {
                           onTap: () {
                             var detroit = tz.getLocation('Asia/Bangkok');
                             var now = tz.TZDateTime.now(detroit);
-                            controller.sendMessage();
+                            controller.sendMessage(roomId: roomId);
                             chatController.clear();
                             controller.setMessage({
                               'messageId':

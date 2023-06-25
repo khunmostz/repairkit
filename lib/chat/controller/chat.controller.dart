@@ -9,6 +9,7 @@ import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:flutter_boilerplate/product/model/rental.model.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/standalone.dart' as tz;
 
 class ChatController extends GetxController {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -26,13 +27,14 @@ class ChatController extends GetxController {
     getRental();
   }
 
+ 
+
   Map<String, dynamic> message = {
     'messageId': '',
     'sendBy': '',
-    'sendTo': Get.find<ProductController>().rentalModel?.rentalName,
     'message': '',
     'messageType': MessageType.TEXT,
-    'date': DateFormat('yyyy-MM-dd HH:mm:ss').format(DateTime.now()),
+    'createdAt': FieldValue.serverTimestamp(),
   };
 
   void setMessage(Map<String, dynamic> data) {
@@ -42,26 +44,28 @@ class ChatController extends GetxController {
 
   Stream<QuerySnapshot> getMessage() {
     if (userMode == ChatMode.USER) {
+      debugPrint(Get.find<ProductController>().rentalModel?.rentalName);
       return _firebaseFirestore
           .collection('room-message')
           .doc(
               '${_firebaseAuth.currentUser?.email}-${Get.find<ProductController>().rentalModel?.rentalName}')
+
           .collection('messages')
-          .orderBy('date', descending: false)
+          .orderBy('createdAt',descending: false)
           .snapshots();
     }
     debugPrint('$activeChat-${myRental?.rentalName}');
     return _firebaseFirestore
         .collection('room-message')
         .doc('$activeChat-${myRental?.rentalName}')
-        .collection('messages')
-        .orderBy('date', descending: false)
+       .collection('messages')
+       .orderBy('createdAt',descending: false)
         .snapshots();
   }
 
   Stream<QuerySnapshot>? getRoom() {
     getRental();
-    // if (myRental?.rentalName != null) {
+    if (myRental?.rentalName != null) {
       return _firebaseFirestore
           .collection('room-message')
           .where(
@@ -69,8 +73,8 @@ class ChatController extends GetxController {
             isEqualTo: myRental?.rentalName,
           )
           .snapshots();
-    // }
-    // return null;
+    }
+    return null;
   }
 
   Future<void> getRental() async {

@@ -43,16 +43,52 @@ class MessageBubble extends StatelessWidget {
               ),
             ),
             Padding(
-              padding:const EdgeInsets.only(top: 5, left: 10, right: 10),
+              padding: const EdgeInsets.only(top: 5, left: 10, right: 10),
               child: Text(
                 DateFormat('dd-MM-yy HH:mm')
                     .format(message.date ?? DateTime.now()),
-                style: TextStyle(color: ColorConstants.COLOR_GREY, fontSize: 10),
+                style:
+                    TextStyle(color: ColorConstants.COLOR_GREY, fontSize: 10),
               ),
             )
           ],
         ),
       ],
+    );
+  }
+
+  Widget _buildSentMessage(ChatMessage message) {
+    return Align(
+      alignment: Alignment.centerRight,
+      child: Container(
+        margin: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(12.0),
+        decoration: BoxDecoration(
+          color: Colors.blue,
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Text(
+          message.message ?? '',
+          style: TextStyle(color: Colors.white),
+        ),
+      ),
+    );
+  }
+
+  Widget _buildReceivedMessage(ChatMessage message) {
+    return Align(
+      alignment: Alignment.centerLeft,
+      child: Container(
+        margin: EdgeInsets.all(8.0),
+        padding: EdgeInsets.all(12.0),
+        decoration: BoxDecoration(
+          color: Colors.grey[300],
+          borderRadius: BorderRadius.circular(8.0),
+        ),
+        child: Text(
+          message.message ?? '',
+        ),
+      ),
     );
   }
 }

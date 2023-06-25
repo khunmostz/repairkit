@@ -59,6 +59,7 @@ dependencies:
   awesome_card: ^1.1.7
   flutter_multi_formatter: ^2.11.1
   flutter_launcher_icons: ^0.13.1
+  timezone: ^0.9.2
 
 dev_dependencies:
   flutter_test:

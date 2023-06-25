@@ -38,16 +38,6 @@ class Profile extends GetView<ProfileController> {
                       ...controller.itemColumnProfile.map(
                         (e) => InkWell(
                           onTap: (){
-                            FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-                            firebaseMessaging.sendMessage(
-                              to: 'fTyC3wj7R2uza8CSLRB3qp:APA91bHyJoBormuhwI1sOaWW8HI8E0dKyukgCarapRymFm_tCJKJ1PG1hRFOmX1-a_poc5onqgJNSiIW94W3FjLoNfh8BplWBwoBHcYl1OXON7uGtG0K4VrxiDZed0ckcc12DQ9Y4MP0',
-                              data: {
-                                "body": "test"
-                              },
-                              messageType: 'topic',
-                              messageId: 'asdas',
-                              collapseKey: 'asdasd',
-                            );
                           },
                           child: _itemColumnProfile(title: e['title'],icon: e['icon'])),
                       ),
@@ -57,7 +47,7 @@ class Profile extends GetView<ProfileController> {
                 ...controller.itemRowProfile
                     .map((e) => InkWell(
                           onTap: () {
-                            Get.toNamed(RouteConstants.chat);
+                             
                           },
                           child: _itemRowProfile(
                             iconLeading: e['iconLeading'],

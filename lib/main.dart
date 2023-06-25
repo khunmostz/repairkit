@@ -11,6 +11,8 @@ import 'package:get/get.dart';
 import 'package:get_storage/get_storage.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'firebase_options.dart';
+import 'package:timezone/timezone.dart' as tz;
+import 'package:timezone/data/latest.dart' as tz;
 
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
@@ -25,7 +27,14 @@ Future<void> main() async {
   await NotificationService().initNotification();
   await NotificationService.setFcmPermission();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
+  await setupTimezone();
   runApp(const MyApp());
+}
+
+Future<void> setupTimezone() async {
+tz.initializeTimeZones();
+  var detroit = tz.getLocation('Asia/Bangkok');
+  tz.setLocalLocation(detroit);
 }
 
 class MyApp extends StatelessWidget {

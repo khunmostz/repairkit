@@ -8,12 +8,9 @@ import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/services/base/api_constant.dart';
 import 'package:flutter_boilerplate/base/services/base/api_endpoint.dart';
 import 'package:flutter_boilerplate/base/utils/constants/enum.dart';
-import 'package:flutter_boilerplate/base/utils/service_locator.dart';
 import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:flutter_boilerplate/product/model/rental.model.dart';
 import 'package:get/get.dart';
-import 'package:intl/intl.dart';
-import 'package:timezone/standalone.dart' as tz;
 
 class ChatController extends GetxController {
   FirebaseFirestore _firebaseFirestore = FirebaseFirestore.instance;
@@ -27,14 +24,14 @@ class ChatController extends GetxController {
 
   String? sendFcm = '';
   String? roomId = '';
-  void setRoomId(String? value){
+  void setRoomId(String? value) {
     roomId = value;
   }
 
   @override
   Future<void> onInit() async {
     super.onInit();
-   await getRental();
+    await getRental();
     // getFcmFromChatRoom();
   }
 
@@ -51,8 +48,8 @@ class ChatController extends GetxController {
     update();
   }
 
-  Future<void> sendNotificationFcm() async {
-    print(sendFcm);
+  Future<void> sendNotificationFcm({String? message}) async {
+    debugPrint(sendFcm);
 
     final dio = Dio();
     Map<String, dynamic> data = {
@@ -61,7 +58,7 @@ class ChatController extends GetxController {
         "title": userMode == ChatMode.USER
             ? _firebaseAuth.currentUser?.email
             : myRental?.rentalName,
-        "body": message['message'],
+        "body": message,
       }
     };
     dynamic response;
@@ -76,7 +73,7 @@ class ChatController extends GetxController {
         },
       ),
     );
-    print(response);
+    debugPrint(response);
   }
 
   Stream<QuerySnapshot> getMessage() {
@@ -102,10 +99,10 @@ class ChatController extends GetxController {
   }
 
   Stream<QuerySnapshot>? getRoom() {
-  //  await getRental();
+    //  await getRental();
     if (myRental?.rentalName != null) {
       debugPrint('con 1');
-       update();
+      update();
       return _firebaseFirestore
           .collection('room-message')
           .where(
@@ -115,7 +112,7 @@ class ChatController extends GetxController {
           .snapshots();
     } else if (FirebaseAuth.instance.currentUser?.email != null) {
       debugPrint('con 2');
-       update();
+      update();
       return _firebaseFirestore
           .collection('room-message')
           .where(
@@ -174,6 +171,10 @@ class ChatController extends GetxController {
   Future<void> sendMessage({String? roomId}) async {
     try {
       if (userMode == ChatMode.USER) {
+        if (sendFcm != '' && sendFcm != null) {
+          sendNotificationFcm(message: message['message']);
+        }
+
         await _firebaseFirestore
             .collection('room-message')
             .doc(
@@ -181,9 +182,6 @@ class ChatController extends GetxController {
             .collection('messages')
             .doc()
             .set(message);
-        if (sendFcm != '' && sendFcm != null) {
-          sendNotificationFcm();
-        }
 
         await _firebaseFirestore
             .collection('room-message')
@@ -200,22 +198,19 @@ class ChatController extends GetxController {
           'fcmRental': sendFcm != '' && sendFcm != null ? sendFcm : '',
         });
       } else if (userMode == ChatMode.RENTAL) {
-      
+        if (sendFcm != '' && sendFcm != null) {
+          sendNotificationFcm(message: message['message']);
+        }
+
         await _firebaseFirestore
             .collection('room-message')
             .doc(roomId)
             .collection('messages')
             .doc()
             .set(message);
-        await _firebaseFirestore
-            .collection('room-message')
-            .doc(roomId)
-            .update({
+        await _firebaseFirestore.collection('room-message').doc(roomId).update({
           'fcmRental': await FirebaseMessaging.instance.getToken(),
         });
-        if (sendFcm != '' && sendFcm != null) {
-          sendNotificationFcm();
-        }
       }
 
       print(sendFcm);

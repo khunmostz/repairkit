@@ -84,7 +84,7 @@ class ProductController extends GetxController {
         debugPrint(e.toString());
       }
     }else{
-      debugPrint('==== Fetch Product Error ====');
+      debugPrint('==== activeCategory has null ====');
     }
   }
 

@@ -34,6 +34,7 @@ class BaseScaffold extends StatelessWidget {
         backgroundColor: ColorConstants.COLOR_BLUE,
         centerTitle: true,
         elevation: 0,
+        automaticallyImplyLeading: false,
         title: Text(titleName ?? ''),
         leading: showBackPress == true ? InkWell(
           onTap: onBackPress,

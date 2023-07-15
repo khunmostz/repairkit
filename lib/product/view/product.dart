@@ -48,7 +48,7 @@ class Product extends GetView<ProductController> {
                   ),
                 );
               }
-
+        
               return Expanded(
                 child: GridView.builder(
                   physics: const BouncingScrollPhysics(),

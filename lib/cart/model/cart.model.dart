@@ -12,6 +12,11 @@ class CartModel {
     String? productRent;
     String? productPrice;
     String? productTotal;
+    String? rentalName;
+    String? dayOfRent;
+    String? trackingCompany;
+    String? trackingProduct;
+    bool? acceptItem;
 
     CartModel({
         this.productImage,
@@ -20,6 +25,11 @@ class CartModel {
         this.productRent,
         this.productPrice,
         this.productTotal,
+        this.rentalName,
+        this.dayOfRent,
+        this.trackingCompany,
+        this.trackingProduct,
+        this.acceptItem,
     });
 
     CartModel copyWith({
@@ -29,6 +39,11 @@ class CartModel {
         String? productRent,
         String? productPrice,
         String? productTotal,
+        String? rentalName,
+        String? dayOfRent,
+        String? trackingCompany,
+        String? trackingProduct,
+        bool? acceptItem,
     }) => 
         CartModel(
             productImage: productImage ?? this.productImage,
@@ -37,6 +52,11 @@ class CartModel {
             productRent: productRent ?? this.productRent,
             productPrice: productPrice?? this.productPrice,
             productTotal: productTotal ?? this.productTotal,
+            rentalName: rentalName ?? this.rentalName,
+            dayOfRent: dayOfRent ?? this.dayOfRent,
+            trackingCompany: trackingCompany ?? this.trackingCompany,
+            trackingProduct: trackingProduct ?? this.trackingProduct,
+            acceptItem: acceptItem ?? this.acceptItem,
         );
 
     factory CartModel.fromJson(Map<String, dynamic> json) => CartModel(
@@ -46,6 +66,11 @@ class CartModel {
         productRent: json["productRent"],
         productTotal: json["productTotal"],
         productPrice: json["productPrice"],
+        rentalName: json["rentalName"],
+        dayOfRent: json["dayOfRent"],
+        trackingCompany: json["trackingCompany"],
+        trackingProduct: json["trackingProduct"],
+        acceptItem: json["acceptItem"],
     );
 
     Map<String, dynamic> toJson() => {
@@ -55,5 +80,10 @@ class CartModel {
         "productRent": productRent,
         "productTotal": productTotal,
         "productPrice" : productPrice,
+        "rentalName": rentalName,
+        "dayOfRent": dayOfRent,
+        "trackingCompany":trackingCompany,
+        "trackingProduct": trackingProduct,
+        "acceptItem": acceptItem,
     };
 }

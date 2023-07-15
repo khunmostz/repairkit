@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/route.dart';
@@ -47,7 +46,14 @@ class Profile extends GetView<ProfileController> {
                 ...controller.itemRowProfile
                     .map((e) => InkWell(
                           onTap: () {
-                             
+                            print(e["name"]);
+                             switch (e["name"]) {
+                               case "history_rent":
+                                print('object');
+                                 Get.toNamed(RouteConstants.receiveProduct);
+                                 break;
+                               default:
+                             }
                           },
                           child: _itemRowProfile(
                             iconLeading: e['iconLeading'],

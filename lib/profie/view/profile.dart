@@ -27,7 +27,7 @@ class Profile extends GetView<ProfileController> {
                   backgroundColor: ColorConstants.COLOR_BLUE,
                   radius: 40,
                 ),
-                 Text(FirebaseAuth.instance.currentUser?.email ?? ''),
+                Text(FirebaseAuth.instance.currentUser?.email ?? ''),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -36,9 +36,16 @@ class Profile extends GetView<ProfileController> {
                     children: [
                       ...controller.itemColumnProfile.map(
                         (e) => InkWell(
-                          onTap: (){
-                          },
-                          child: _itemColumnProfile(title: e['title'],icon: e['icon'])),
+                            onTap: () {
+                              switch (e["name"]) {
+                                case "history_rent":
+                                  Get.toNamed(RouteConstants.receiveProduct);
+                                  break;
+                                default:
+                              }
+                            },
+                            child: _itemColumnProfile(
+                                title: e['title'], icon: e['icon'])),
                       ),
                     ],
                   ),
@@ -46,14 +53,12 @@ class Profile extends GetView<ProfileController> {
                 ...controller.itemRowProfile
                     .map((e) => InkWell(
                           onTap: () {
-                            print(e["name"]);
-                             switch (e["name"]) {
-                               case "history_rent":
-                                print('object');
-                                 Get.toNamed(RouteConstants.receiveProduct);
-                                 break;
-                               default:
-                             }
+                            switch (e["name"]) {
+                                case "rent_store":
+                                  Get.toNamed(RouteConstants.myShop);
+                                  break;
+                                default:
+                              }
                           },
                           child: _itemRowProfile(
                             iconLeading: e['iconLeading'],

@@ -19,7 +19,7 @@ class ReceiveProduct extends StatelessWidget {
         // Get.offNamedUntil(RouteConstants.layout, (route) {
         //   return true;
         // });
-        // Get.toNamed(RouteConstants.receiveProduct);
+        // Get.offAndToNamed(RouteConstants.layout);
         // controller.
         return true;
       },
@@ -27,7 +27,10 @@ class ReceiveProduct extends StatelessWidget {
         showBackPress: true,
         // showCart: false,
         onBackPress: () {
-          Get.toNamed(RouteConstants.layout);
+          Get.back();
+        //  Get.offNamedUntil(RouteConstants.layout, (route) {
+        //   return true;
+        // });
         },
         titleName: 'Receive product',
         body: GetBuilder<ReceviceController>(builder: (context) {
@@ -151,11 +154,11 @@ class ReceiveProduct extends StatelessWidget {
                 Container(
                   width: 120.w,
                   height: 120.h,
-                  margin: EdgeInsets.only(top: 12),
+                  margin: const EdgeInsets.only(top: 12),
                   // color: Colors.blue,
                   child: Image.network(productImage ?? ''),
                 ),
-                Spacer(),
+                const Spacer(),
                 Text('จัดส่งโดย  ${trackingCompany ?? '-'}'),
               ],
             ),

@@ -39,8 +39,9 @@ class Layout extends GetView<LayoutController> {
                         controller.changeScreen(i);
                         switch (controller.screenArguments[i]['name']) {
                           case 'Chat':
-                            // Get.find<ChatController>().getRoom();
-                            // Get.find<ChatController>().getRental();
+
+                            Get.find<ChatController>().getRoom();
+                          
                             break;
                           default:
                         }

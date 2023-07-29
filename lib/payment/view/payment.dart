@@ -125,7 +125,7 @@ class _PaymentState extends State<Payment> {
                         // print(response);
                 
                         if (mounted && response['status'] == 'successful') {
-                          Get.find<CartController>().cartList?.clear();
+                      
                           Get.offNamed(RouteConstants.paymentSuccessful);
                         } else {
                           showToast(

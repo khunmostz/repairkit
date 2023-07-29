@@ -1,5 +1,4 @@
 import 'package:firebase_auth/firebase_auth.dart';
-import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/route.dart';
@@ -28,7 +27,7 @@ class Profile extends GetView<ProfileController> {
                   backgroundColor: ColorConstants.COLOR_BLUE,
                   radius: 40,
                 ),
-                 Text(FirebaseAuth.instance.currentUser?.email ?? ''),
+                Text(FirebaseAuth.instance.currentUser?.email ?? ''),
                 Padding(
                   padding:
                       const EdgeInsets.symmetric(horizontal: 24, vertical: 24),
@@ -37,19 +36,16 @@ class Profile extends GetView<ProfileController> {
                     children: [
                       ...controller.itemColumnProfile.map(
                         (e) => InkWell(
-                          onTap: (){
-                            FirebaseMessaging firebaseMessaging = FirebaseMessaging.instance;
-                            firebaseMessaging.sendMessage(
-                              to: 'fTyC3wj7R2uza8CSLRB3qp:APA91bHyJoBormuhwI1sOaWW8HI8E0dKyukgCarapRymFm_tCJKJ1PG1hRFOmX1-a_poc5onqgJNSiIW94W3FjLoNfh8BplWBwoBHcYl1OXON7uGtG0K4VrxiDZed0ckcc12DQ9Y4MP0',
-                              data: {
-                                "body": "test"
-                              },
-                              messageType: 'topic',
-                              messageId: 'asdas',
-                              collapseKey: 'asdasd',
-                            );
-                          },
-                          child: _itemColumnProfile(title: e['title'],icon: e['icon'])),
+                            onTap: () {
+                              switch (e["name"]) {
+                                case "history_rent":
+                                  Get.toNamed(RouteConstants.receiveProduct);
+                                  break;
+                                default:
+                              }
+                            },
+                            child: _itemColumnProfile(
+                                title: e['title'], icon: e['icon'])),
                       ),
                     ],
                   ),
@@ -57,7 +53,12 @@ class Profile extends GetView<ProfileController> {
                 ...controller.itemRowProfile
                     .map((e) => InkWell(
                           onTap: () {
-                            Get.toNamed(RouteConstants.chat);
+                            switch (e["name"]) {
+                                case "rent_store":
+                                  Get.toNamed(RouteConstants.myShop);
+                                  break;
+                                default:
+                              }
                           },
                           child: _itemRowProfile(
                             iconLeading: e['iconLeading'],

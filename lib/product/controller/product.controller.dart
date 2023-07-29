@@ -84,7 +84,7 @@ class ProductController extends GetxController {
         debugPrint(e.toString());
       }
     }else{
-      debugPrint('==== Fetch Product Error ====');
+      debugPrint('==== activeCategory has null ====');
     }
   }
 
@@ -99,6 +99,7 @@ class ProductController extends GetxController {
         var jsonData = json.encode(rental.data());
         rentalModel = RentalModel.fromJson(json.decode(jsonData));
       }
+
     } catch (e) {
       debugPrint(e.toString());
     }

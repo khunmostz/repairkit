@@ -112,11 +112,12 @@ class ProductDetail extends GetView<ProductController> {
                   ),
                   InkWell(
                     onTap: () {
-                      debugPrint('chat');
+                      // debugPrint('chat');
                       Get.find<ChatController>().userMode = ChatMode.USER;
                       Get.toNamed(
                         RouteConstants.chat,
                       );
+                      // Navigator.push(context, MaterialPageRoute(builder: (context)=> ChatScreen()));
                     },
                     child: Icon(
                       Icons.chat,
@@ -255,11 +256,15 @@ class ProductDetail extends GetView<ProductController> {
                                       productName: productModel.productName,
                                       productAmout:
                                           controller.amount.toString(),
-                                      productRent: controller.day,
                                       productPrice:
                                           productModel.productPrice.toString(),
                                       productTotal:
                                           controller.totalPrice.toString(),
+                                      dayOfRent: controller.day,
+                                      rentalName: controller.rentalModel?.rentalName,
+                                      trackingCompany: '-',
+                                      trackingProduct: '-',
+                                      acceptItem:false,
                                     ),
                                   );
                                   showToast(context,

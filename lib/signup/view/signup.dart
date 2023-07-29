@@ -102,8 +102,7 @@ class SignUp extends GetView<SignUpController> {
                         }
                       },
                     ),
-
-                      CustomTextFormField(
+                    CustomTextFormField(
                       label: 'address'.tr,
                       controller: _addressController,
                       autovalidateMode: AutovalidateMode.onUserInteraction,
@@ -112,7 +111,6 @@ class SignUp extends GetView<SignUpController> {
                         if (value!.isEmpty) {
                           return "this field is required".tr;
                         }
-                       
                       },
                     ),
                     Center(
@@ -143,15 +141,15 @@ class SignUp extends GetView<SignUpController> {
                       ),
                     ),
                     Padding(
-                      padding:const  EdgeInsets.only(top: 24,bottom: 24),
+                      padding: const EdgeInsets.only(top: 24, bottom: 24),
                       child: Row(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                           Text(
+                          Text(
                             'Already have an account? '.tr,
                           ),
                           InkWell(
-                            onTap: (){
+                            onTap: () {
                               Get.offNamed('/signIn');
                             },
                             child: Text(

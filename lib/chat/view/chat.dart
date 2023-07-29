@@ -10,52 +10,62 @@ import 'package:flutter_boilerplate/chat/view/message_bubble.dart';
 import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:get/get.dart';
 import 'package:intl/intl.dart';
+import 'package:timezone/standalone.dart' as tz;
 
 class ChatView extends GetView<ChatController> {
   ChatView({super.key});
 
   TextEditingController chatController = TextEditingController();
 
-  
-
   @override
   Widget build(BuildContext context) {
+    String? roomId =Get.arguments;
+    
     return BaseScaffold(
       showCart: false,
       onBackPress: () => Get.back(),
-      titleName:
-          'Chat',
+      titleName: 'Chat',
       resizeToAvoidBottomInset: true,
       body: StreamBuilder<QuerySnapshot>(
           stream: controller.getMessage(),
           builder: (context, AsyncSnapshot<QuerySnapshot> snapshot) {
+            // controller.getFcmFromChatRoom();
             if (snapshot.connectionState == ConnectionState.waiting &&
                 !snapshot.hasData) {
-              return Container(
-                child: const Center(
+              return const SizedBox(
+                child: Center(
                   child: CircularProgressIndicator(),
                 ),
               );
             }
+
+            List<ChatMessage> messageSnapshot = [];
+
+            snapshot.data?.docs.forEach(
+              (element) {
+                messageSnapshot.add(ChatMessage(
+                  message: element['message'],
+                  messageId: element['messageId'],
+                  messageType: element['messageType'],
+                  isSender: FirebaseAuth.instance.currentUser?.uid ==
+                      element['sendBy'],
+
+                ));
+              },
+            );
+
             return Column(
               children: [
-                if (snapshot.data!.docs.isNotEmpty) ...{
+                if (snapshot.data!.docs.isNotEmpty &&
+                    messageSnapshot.isNotEmpty) ...{
                   Expanded(
                     child: ListView.builder(
+                      // reverse: true,
                       physics: const BouncingScrollPhysics(),
-                      itemCount: snapshot.data?.docs.length ?? 0,
+                      itemCount: messageSnapshot.length,
                       itemBuilder: (context, index) {
-                        var data = snapshot.data?.docs;
-
-                        ChatMessage messageSnapshot = ChatMessage(
-                          message: data?[index]['message'],
-                          messageId: data?[index]['messageId'],
-                          isSender: FirebaseAuth.instance.currentUser?.uid ==
-                              data?[index]['sendBy'],
-                        );
-
                         return MessageBubble(
-                          message: messageSnapshot,
+                          message: messageSnapshot[index],
                         );
                       },
                     ),
@@ -64,9 +74,7 @@ class ChatView extends GetView<ChatController> {
                   const Spacer()
                 },
                 Container(
-                  // width: size.width,
                   color: ColorConstants.COLOR_BLUE,
-                  // height: 70.h,
                   child: Padding(
                     padding: const EdgeInsets.symmetric(horizontal: 10),
                     child: Row(
@@ -74,10 +82,7 @@ class ChatView extends GetView<ChatController> {
                         Padding(
                           padding: const EdgeInsets.only(right: 20),
                           child: InkWell(
-                            onTap: () {
-                              print(DateFormat('yyyy-MM-dd HH:mm:ss')
-                                  .format(DateTime.now()));
-                            },
+                            onTap: () {},
                             child: Icon(
                               Icons.photo_size_select_actual_outlined,
                               color: ColorConstants.COLOR_WHITE,
@@ -103,15 +108,15 @@ class ChatView extends GetView<ChatController> {
                                 ),
                               ),
                               onChanged: (message) {
+                                var detroit = tz.getLocation('Asia/Bangkok');
+                                var now = tz.TZDateTime.now(detroit);
                                 controller.setMessage({
                                   'messageId':
-                                      '${FirebaseAuth.instance.currentUser?.uid}-${Get.find<ProductController>().rentalModel?.rentalName}',
+                                      '${FirebaseAuth.instance.currentUser?.uid}',
                                   'sendBy':
                                       '${FirebaseAuth.instance.currentUser?.uid}',
                                   'message': message,
                                   'messageType': MessageType.TEXT,
-                                  'date': DateFormat('yyyy-MM-dd HH:mm:ss')
-                                      .format(DateTime.now()),
                                 });
                               },
                             ),
@@ -119,7 +124,9 @@ class ChatView extends GetView<ChatController> {
                         ),
                         InkWell(
                           onTap: () {
-                            controller.sendMessage();
+                            var detroit = tz.getLocation('Asia/Bangkok');
+                            var now = tz.TZDateTime.now(detroit);
+                            controller.sendMessage(roomId: roomId);
                             chatController.clear();
                             controller.setMessage({
                               'messageId':
@@ -128,8 +135,6 @@ class ChatView extends GetView<ChatController> {
                                   '${FirebaseAuth.instance.currentUser?.uid}',
                               'message': '',
                               'messageType': MessageType.TEXT,
-                              'date': DateFormat('yyyy-MM-dd HH:mm:ss')
-                                  .format(DateTime.now()),
                             });
                           },
                           child: Padding(

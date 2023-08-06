@@ -33,6 +33,8 @@ class _CreateShopState extends State<CreateShop> {
 
   var controller = Get.find<RentalController>();
 
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   TextEditingController rentalNameController = TextEditingController();
   TextEditingController identificationController = TextEditingController();
   TextEditingController rentalAddressController = TextEditingController();
@@ -46,116 +48,171 @@ class _CreateShopState extends State<CreateShop> {
         Get.back();
       },
       titleName: 'สร้างร้านให้เช่า',
-      body: SizedBox(
-        width: size.width,
-        height: size.height,
-        child: SingleChildScrollView(
-          child: GetBuilder<RentalController>(builder: (_) {
-            return Column(
-              children: [
-                Padding(
-                  padding: const EdgeInsets.only(left: 24),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: CustomTextFormField(
-                          label: 'ชื่อร้านค้า',
-                          showBorder: true,
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            openModalCamera(context);
-                          },
-                          child: Container(
-                            height: 100,
-                            margin: const EdgeInsets.all(24),
-                            color: ColorConstants.COLOR_GREEN,
-                            child: controller.imageRental == null
-                                ? const Center(
-                                    child: Icon(Icons.add),
-                                  )
-                                : Image.file(
-                                    controller.imageRental ?? File(''),
-                                    fit: BoxFit.cover,
-                                  ),
+      body: Form(
+        key: _formKey,
+        child: SizedBox(
+          width: size.width,
+          height: size.height,
+          child: SingleChildScrollView(
+            child: GetBuilder<RentalController>(builder: (_) {
+              return Column(
+                children: [
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24),
+                    child: Row(
+                      children: [
+                        Expanded(
+                          child: CustomTextFormField(
+                            label: 'ชื่อร้านค้า',
+                            showBorder: true,
+                            controller: rentalNameController,
+                            validator: (value) {
+                              if (value!.isEmpty) {
+                                return "this field is required".tr;
+                              }
+                              return null;
+                            },
                           ),
                         ),
-                      ),
-                    ],
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.only(left: 24),
-                  child: Row(
-                    children: [
-                      const Expanded(
-                        child: CustomTextFormField(
-                          label: 'เพิ่มรูปถ่าย บัตรประจำตัวประชาชน',
-                          showBorder: true,
-                        ),
-                      ),
-                      Expanded(
-                        child: GestureDetector(
-                          onTap: () {
-                            openModalCamera(context);
-                          },
-                          child: Container(
-                            height: 100,
-                            margin: const EdgeInsets.all(24),
-                            color: ColorConstants.COLOR_GREEN,
-                            child: const Center(
-                              child: Icon(Icons.add),
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              openModalCamera(context);
+                            },
+                            child: Container(
+                              height: 100,
+                              margin: const EdgeInsets.all(24),
+                              color: ColorConstants.COLOR_GREEN,
+                              child: controller.imageRental == null
+                                  ? const Center(
+                                      child: Icon(Icons.add),
+                                    )
+                                  : Image.file(
+                                      controller.imageRental ?? File(''),
+                                      fit: BoxFit.cover,
+                                    ),
                             ),
                           ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: CustomTextFormField(
-                    label: 'ที่อยู่ในการเข้ารับสินค้า',
-                    showBorder: true,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: CustomTextFormField(
-                    label: 'อีเมลล์',
-                    showBorder: true,
-                  ),
-                ),
-                const Padding(
-                  padding: EdgeInsets.symmetric(horizontal: 24),
-                  child: CustomTextFormField(
-                    label: 'หมายเลขโทรศัพท์',
-                    showBorder: true,
-                  ),
-                ),
-                Padding(
-                  padding: const EdgeInsets.symmetric(horizontal: 24),
-                  child: Row(
-                    children: const [
-                      Expanded(
-                        child: CustomButton(
-                          text: 'ยกเลิก',
+                  Padding(
+                    padding: const EdgeInsets.only(left: 24),
+                    child: Row(
+                      children: [
+                        const Expanded(
+                          child: CustomTextFormField(
+                            label: 'เพิ่มรูปถ่าย บัตรประจำตัวประชาชน',
+                            showBorder: true,
+                          ),
                         ),
-                      ),
-                      SizedBox(width: 20),
-                      Expanded(
-                        child: CustomButton(
-                          text: 'ยืนยัน',
+                        Expanded(
+                          child: GestureDetector(
+                            onTap: () {
+                              openModalCamera(context, isIdentification: true);
+                            },
+                            child: Container(
+                              height: 100,
+                              margin: const EdgeInsets.all(24),
+                              color: ColorConstants.COLOR_GREEN,
+                              child: controller.imageIdentification == null
+                                  ? const Center(
+                                      child: Icon(Icons.add),
+                                    )
+                                  : Image.file(
+                                      controller.imageIdentification ??
+                                          File(''),
+                                      fit: BoxFit.cover,
+                                    ),
+                            ),
+                          ),
                         ),
-                      ),
-                    ],
+                      ],
+                    ),
                   ),
-                )
-              ],
-            );
-          }),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: CustomTextFormField(
+                      label: 'ที่อยู่ในการเข้ารับสินค้า',
+                      showBorder: true,
+                      controller: rentalAddressController,
+                      onChanged: (value) {},
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "this field is required".tr;
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: CustomTextFormField(
+                      label: 'อีเมลล์',
+                      showBorder: true,
+                      controller: emailController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "this field is required".tr;
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                  Padding(
+                    padding: const EdgeInsets.symmetric(horizontal: 24),
+                    child: CustomTextFormField(
+                      label: 'หมายเลขโทรศัพท์',
+                      showBorder: true,
+                      controller: rentalPhoneController,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "this field is required".tr;
+                        }
+                        return null;
+                      },
+                    ),
+                  ),
+                ],
+              );
+            }),
+          ),
+        ),
+      ),
+      bottomNavigationBar: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Row(
+          children: [
+            Expanded(
+              child: CustomButton(
+                color: Colors.grey,
+                onTap: () {
+                  Get.back();
+                },
+                text: 'ยกเลิก',
+              ),
+            ),
+            const SizedBox(width: 20),
+            Expanded(
+              child: CustomButton(
+                text: 'ยืนยัน',
+                onTap: () async {
+                  if (_formKey.currentState!.validate()) {
+                    bool? result = await controller.createRentalShop(
+                      rentalAddress: rentalAddressController.text,
+                      rentalName: rentalNameController.text,
+                      rentalPhone: rentalPhoneController.text,
+                    );
+
+                    if (result != false && mounted) {
+                      Get.back();
+                    }
+                  }
+                },
+              ),
+            ),
+          ],
         ),
       ),
     );
@@ -182,7 +239,7 @@ class _CreateShopState extends State<CreateShop> {
                               if (result == true && mounted) Get.back();
                               break;
                             case 'gallery':
-                              controller.selectImageRental(
+                              controller.selectImageIdentification(
                                   imageSource: ImageSource.gallery);
                               break;
                             default:

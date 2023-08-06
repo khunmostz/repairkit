@@ -1,5 +1,5 @@
 class ProductModel {
-  int? rentalId;
+  dynamic rentalId;
   String? productCategory;
   String? productName;
   int? productPrice;

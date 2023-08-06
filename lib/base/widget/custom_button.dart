@@ -5,7 +5,9 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 class CustomButton extends StatefulWidget {
   const CustomButton({
     super.key,
-    this.onTap, this.text,
+    this.onTap,
+    this.text,
+    this.color,
   });
 
   @override
@@ -13,6 +15,7 @@ class CustomButton extends StatefulWidget {
 
   final Function()? onTap;
   final String? text;
+  final Color? color;
 }
 
 class _CustomButtonState extends State<CustomButton> {
@@ -24,7 +27,7 @@ class _CustomButtonState extends State<CustomButton> {
         width: 256,
         height: 60.h,
         decoration: BoxDecoration(
-          color: ColorConstants.COLOR_ORANGE,
+          color: widget.color ?? ColorConstants.COLOR_ORANGE,
           borderRadius: BorderRadius.circular(24),
         ),
         child: Center(

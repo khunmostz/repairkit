@@ -36,6 +36,8 @@ class Profile extends GetView<ProfileController> {
                     children: [
                       ...controller.itemColumnProfile.map(
                         (e) => InkWell(
+                            splashColor: Colors.transparent,
+                            highlightColor: Colors.transparent,
                             onTap: () {
                               switch (e["name"]) {
                                 case "history_rent":
@@ -52,13 +54,15 @@ class Profile extends GetView<ProfileController> {
                 ),
                 ...controller.itemRowProfile
                     .map((e) => InkWell(
+                          splashColor: Colors.transparent,
+                          highlightColor: Colors.transparent,
                           onTap: () {
                             switch (e["name"]) {
-                                case "rent_store":
-                                  Get.toNamed(RouteConstants.myShop);
-                                  break;
-                                default:
-                              }
+                              case "rent_store":
+                                Get.toNamed(RouteConstants.myShop);
+                                break;
+                              default:
+                            }
                           },
                           child: _itemRowProfile(
                             iconLeading: e['iconLeading'],

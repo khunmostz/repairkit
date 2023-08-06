@@ -5,7 +5,7 @@ RentalModel rentalModelFromJson(String str) => RentalModel.fromJson(json.decode(
 String rentalModelToJson(RentalModel data) => json.encode(data.toJson());
 
 class RentalModel {
-    int? rentalId;
+    dynamic rentalId;
     String? rentalName;
     String? rentalPhone;
     String? rentalAddress;
@@ -20,7 +20,7 @@ class RentalModel {
     });
 
     RentalModel copyWith({
-        int? rentalId,
+        dynamic rentalId,
         String? rentalName,
         String? rentalPhone,
         String? rentalAddress,

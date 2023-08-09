@@ -143,6 +143,9 @@ class RentalController extends GetxController {
         // convert timestamp to date time
         Timestamp timestamp = data['productTime'];
         DateTime date = timestamp.toDate();
+
+        print(data['productImage']);
+
         product?.add(ProductModel(
           rentalId: data['rentalId'],
           productCategory: data['productCategory'],
@@ -242,7 +245,7 @@ class RentalController extends GetxController {
         final Rx<File> _imagePath = File(_pickedImage.path).obs;
         imageProduct = _imagePath.value;
         update();
-        uploadProductImage(imageProductUrl ?? "", imageProduct ?? File(''));
+        uploadProductImage(imageProduct!.path);
 
         return true;
       }
@@ -268,7 +271,7 @@ class RentalController extends GetxController {
         final Rx<File> _imagePath = File(_pickedImage.path).obs;
         imageRental = _imagePath.value;
         update();
-        uploadRentalImage(imageRentalUrl ?? "", imageRental ?? File(''));
+        uploadRentalImage(imageRental!.path);
 
         return true;
       }
@@ -295,8 +298,7 @@ class RentalController extends GetxController {
         final Rx<File> _imagePath = File(_pickedImage.path).obs;
         imageIdentification = _imagePath.value;
         update();
-        uploadIdentificationImage(
-            imageRentalUrl ?? "", imageRental ?? File(''));
+        uploadIdentificationImage(imageIdentification!.path);
         return true;
       }
 
@@ -307,24 +309,31 @@ class RentalController extends GetxController {
     return null;
   }
 
-  Future<void> uploadProductImage(String imagePath, File image) async {
-    var firebaseRef = await FirebaseStorage.instance
-        .ref()
-        .child('product-image/${imagePath.split('/').last}');
-    var uploadTask = firebaseRef.putFile(image);
-    var taskSnapshot = await uploadTask.whenComplete(() async {
-      debugPrint('upload product success');
-    }).then((value) async {
-      var imageUrl = await value.ref.getDownloadURL();
+  Future<void> uploadProductImage(
+    String imagePath,
+  ) async {
+    try {
+      var firebaseRef = FirebaseStorage.instance
+          .ref()
+          .child('product-image/${imagePath.split('/').last}');
+
+      var uploadTask = firebaseRef.putFile(imageProduct!);
+      var taskSnapshot = await uploadTask;
+
+      var imageUrl = await taskSnapshot.ref.getDownloadURL();
       imageProductUrl = imageUrl;
-    });
+
+      debugPrint('Upload product image success');
+    } catch (error) {
+      debugPrint('Error uploading product image: $error');
+    }
   }
 
-  Future<void> uploadRentalImage(String imagePath, File image) async {
+  Future<void> uploadRentalImage(String imagePath) async {
     var firebaseRef = await FirebaseStorage.instance
         .ref()
         .child('rental-image/${imagePath.split('/').last}');
-    var uploadTask = firebaseRef.putFile(image);
+    var uploadTask = firebaseRef.putFile(imageRental!);
     var taskSnapshot = await uploadTask.whenComplete(() async {
       debugPrint('upload rental success');
     }).then((value) async {
@@ -333,11 +342,11 @@ class RentalController extends GetxController {
     });
   }
 
-  Future<void> uploadIdentificationImage(String imagePath, File image) async {
+  Future<void> uploadIdentificationImage(String imagePath) async {
     var firebaseRef = await FirebaseStorage.instance
         .ref()
         .child('identification-image/${imagePath.split('/').last}');
-    var uploadTask = firebaseRef.putFile(image);
+    var uploadTask = firebaseRef.putFile(imageIdentification!);
     var taskSnapshot = await uploadTask.whenComplete(() async {
       debugPrint('upload identification success');
     }).then((value) async {

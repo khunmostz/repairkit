@@ -42,6 +42,14 @@ class _AddProductState extends State<AddProduct> {
   TextEditingController productPriceController = TextEditingController();
 
   @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.imageProduct = null;
+    controller.imageProductUrl = null;
+  }
+
+  @override
   Widget build(BuildContext context) {
     return BaseScaffold(
       showCart: false,
@@ -207,8 +215,9 @@ class _AddProductState extends State<AddProduct> {
                             if (result == true && mounted) Get.back();
                             break;
                           case 'gallery':
-                            controller.selectImageProduct(
+                            bool? result = await controller.selectImageProduct(
                                 imageSource: ImageSource.gallery);
+                            if (result == true && mounted) Get.back();
                             break;
                           default:
                         }

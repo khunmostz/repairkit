@@ -28,9 +28,9 @@ class ReceiveProduct extends StatelessWidget {
         // showCart: false,
         onBackPress: () {
           Get.back();
-        //  Get.offNamedUntil(RouteConstants.layout, (route) {
-        //   return true;
-        // });
+          //  Get.offNamedUntil(RouteConstants.layout, (route) {
+          //   return true;
+          // });
         },
         titleName: 'Receive product',
         body: GetBuilder<ReceviceController>(builder: (context) {
@@ -47,10 +47,10 @@ class ReceiveProduct extends StatelessWidget {
                           controller.setSelectTab(controller.tab?[index]);
                           switch (controller.selectedTab) {
                             case 'รับสินค้า':
-                                controller.getReceivceProduct();
+                              controller.getReceivceProduct();
                               break;
                             case 'ส่งสินค้าคืน':
-                                controller.getReturnProduct();
+                              controller.getReturnProduct();
                               break;
                             default:
                           }
@@ -97,12 +97,13 @@ class ReceiveProduct extends StatelessWidget {
                               "",
                       onAccept: () {
                         // controller.accepthItem(index: index);
+                        controller.setActiveReceiveProduct(
+                            controller.receiveProductModel?[index]);
                         Get.toNamed(RouteConstants.formReturnProduct);
                       }),
                 ),
-              } else
-                ...{
-                   ...List.generate(
+              } else ...{
+                ...List.generate(
                   controller.receiveProductModel?.length ?? 0,
                   (index) => _receiveItem(
                       rentalName:
@@ -123,7 +124,7 @@ class ReceiveProduct extends StatelessWidget {
                         controller.accepthItem(index: index);
                       }),
                 ),
-                }
+              }
             ],
           );
         }),

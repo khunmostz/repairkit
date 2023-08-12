@@ -13,8 +13,8 @@ class ProductController extends GetxController {
   //#region variable product
   bool? isLoading = true;
   List<ProductModel>? product = [];
-  int? rentalActive = 0;
-  void setRentalActive(int id) {
+  dynamic rentalActive = 0;
+  void setRentalActive(dynamic id) {
     rentalActive = id;
   }
 
@@ -74,6 +74,8 @@ class ProductController extends GetxController {
             rating: data['rating'],
           ));
 
+        
+
           if (product != null) {
             isLoading = false;
           }
@@ -83,11 +85,10 @@ class ProductController extends GetxController {
       } catch (e) {
         debugPrint(e.toString());
       }
-    }else{
+    } else {
       debugPrint('==== activeCategory has null ====');
     }
   }
-
 
   Future<void> getRentalById() async {
     try {
@@ -99,7 +100,6 @@ class ProductController extends GetxController {
         var jsonData = json.encode(rental.data());
         rentalModel = RentalModel.fromJson(json.decode(jsonData));
       }
-
     } catch (e) {
       debugPrint(e.toString());
     }

@@ -46,10 +46,10 @@ class ReceiveProduct extends StatelessWidget {
                         onTap: () {
                           controller.setSelectTab(controller.tab?[index]);
                           switch (controller.selectedTab) {
-                            case 'Recevice Product':
+                            case 'รับสินค้า':
                                 controller.getReceivceProduct();
                               break;
-                            case 'Return Product':
+                            case 'ส่งสินค้าคืน':
                                 controller.getReturnProduct();
                               break;
                             default:
@@ -77,7 +77,7 @@ class ReceiveProduct extends StatelessWidget {
                   ),
                 ),
               ),
-              if (controller.selectedTab == 'Recevice Product') ...{
+              if (controller.selectedTab == 'ส่งสินค้าคืน') ...{
                 ...List.generate(
                   controller.receiveProductModel?.length ?? 0,
                   (index) => _receiveItem(
@@ -96,7 +96,8 @@ class ReceiveProduct extends StatelessWidget {
                           controller.receiveProductModel?[index].productImage ??
                               "",
                       onAccept: () {
-                        controller.accepthItem(index: index);
+                        // controller.accepthItem(index: index);
+                        Get.toNamed(RouteConstants.formReturnProduct);
                       }),
                 ),
               } else

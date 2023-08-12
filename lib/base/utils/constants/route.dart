@@ -1,3 +1,4 @@
+import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/layout/layout.dart';
 import 'package:flutter_boilerplate/cart/view/cart.dart';
 import 'package:flutter_boilerplate/chat/controller/chat.controller.dart';
@@ -9,9 +10,11 @@ import 'package:flutter_boilerplate/payment/view/payment_successful.dart';
 import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:flutter_boilerplate/product/view/product.dart';
 import 'package:flutter_boilerplate/product/view/product_detail.dart';
+import 'package:flutter_boilerplate/receive_product/view/form_return_product.dart';
 import 'package:flutter_boilerplate/receive_product/view/receive_product.dart';
 import 'package:flutter_boilerplate/rental/view/add_product.dart';
 import 'package:flutter_boilerplate/rental/view/create_shop.dart';
+import 'package:flutter_boilerplate/rental/view/edit_shop.dart';
 import 'package:flutter_boilerplate/rental/view/my_shop.dart';
 import 'package:flutter_boilerplate/rental/view/order.dart';
 import 'package:flutter_boilerplate/setting/view/setting.dart';
@@ -37,6 +40,8 @@ class RouteConstants {
   static String createShop = "/createShop";
   static String addProduct = '/addProduct';
   static String order = "/order";
+  static String editShop = '/editShop';
+  static String formReturnProduct = '/formReturnProduct';
 
   static List<GetPage> page = [
     GetPage(name: layout, page: () => const Layout()),
@@ -65,6 +70,8 @@ class RouteConstants {
     GetPage(name: myShop, page: () => const MyShop()),
     GetPage(name: createShop, page: () => const CreateShop()),
     GetPage(name: addProduct, page: () => const AddProduct()),
-    GetPage(name: order, page: () => const Order())
+    GetPage(name: order, page: () => const Order()),
+    GetPage(name: editShop, page: (() =>  const EditShop())),
+    GetPage(name: formReturnProduct, page: (() =>  const FormReturnProduct())),
   ];
 }

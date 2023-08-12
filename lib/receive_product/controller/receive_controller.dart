@@ -11,13 +11,13 @@ class ReceviceController extends GetxController {
 
   List<ReceiveProductModel>? receiveProductModel = [];
 
-  String? selectedTab = 'Recevice Product';
+  String? selectedTab = 'รับสินค้า';
   void setSelectTab(String? value){
     selectedTab = value;
     update();
   }
 
-  List<String>?tab = ['Recevice Product','Return Product'];
+  List<String>?tab = ['รับสินค้า','ส่งสินค้าคืน'];
 
   @override
   void onInit() {

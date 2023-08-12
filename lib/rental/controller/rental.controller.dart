@@ -193,6 +193,29 @@ class RentalController extends GetxController {
     }
   }
 
+  Future<bool?> updateRentalShop({
+    String? rentalAddress,
+    String? rentalName,
+    String? rentalPhone,
+  }) async {
+    try {
+      await FirebaseFirestore.instance
+          .collection('rental')
+          .doc(FirebaseAuth.instance.currentUser?.email)
+          .update({
+        "rentalAddress": rentalAddress,
+        "rentalName": rentalName,
+        "rentalPhone": rentalPhone,
+      });
+
+      getUserData();
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
+  }
+
   Future<bool?> createProduct(
       {String? productName,
       String? productInfo,

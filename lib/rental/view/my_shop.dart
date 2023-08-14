@@ -96,7 +96,7 @@ class _MyShopState extends State<MyShop> {
                                     splashColor: Colors.transparent,
                                     highlightColor: Colors.transparent,
                                     onTap: () {
-                                      Get.toNamed(RouteConstants.order);
+                                      Get.toNamed(RouteConstants.rentalReceive);
                                     },
                                     child: const Icon(Icons.mail),
                                   ),

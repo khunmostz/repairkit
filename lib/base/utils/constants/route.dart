@@ -4,6 +4,7 @@ import 'package:flutter_boilerplate/cart/view/cart.dart';
 import 'package:flutter_boilerplate/chat/controller/chat.controller.dart';
 import 'package:flutter_boilerplate/chat/view/chat.dart';
 import 'package:flutter_boilerplate/chat/view/chatlist.dart';
+import 'package:flutter_boilerplate/history/view/history.dart';
 import 'package:flutter_boilerplate/home/view/home.dart';
 import 'package:flutter_boilerplate/payment/view/payment.dart';
 import 'package:flutter_boilerplate/payment/view/payment_successful.dart';
@@ -17,6 +18,8 @@ import 'package:flutter_boilerplate/rental/view/create_shop.dart';
 import 'package:flutter_boilerplate/rental/view/edit_shop.dart';
 import 'package:flutter_boilerplate/rental/view/my_shop.dart';
 import 'package:flutter_boilerplate/rental/view/order.dart';
+import 'package:flutter_boilerplate/rental/view/rental_receive.dart';
+import 'package:flutter_boilerplate/rental/view/request_order.dart';
 import 'package:flutter_boilerplate/setting/view/setting.dart';
 import 'package:flutter_boilerplate/signin/view/sigin.dart';
 import 'package:flutter_boilerplate/signup/view/signup.dart';
@@ -42,6 +45,9 @@ class RouteConstants {
   static String order = "/order";
   static String editShop = '/editShop';
   static String formReturnProduct = '/formReturnProduct';
+  static String rentalReceive = '/rental/receive';
+  static String requestOrder = '/request/order';
+  static String history = '/history';
 
   static List<GetPage> page = [
     GetPage(name: layout, page: () => const Layout()),
@@ -71,7 +77,10 @@ class RouteConstants {
     GetPage(name: createShop, page: () => const CreateShop()),
     GetPage(name: addProduct, page: () => const AddProduct()),
     GetPage(name: order, page: () => const Order()),
-    GetPage(name: editShop, page: (() =>  const EditShop())),
-    GetPage(name: formReturnProduct, page: (() =>  const FormReturnProduct())),
+    GetPage(name: editShop, page: (() => const EditShop())),
+    GetPage(name: formReturnProduct, page: (() => const FormReturnProduct())),
+    GetPage(name: rentalReceive, page: (() => const RentalReceive())),
+    GetPage(name: requestOrder, page: (() => const RequestOrder())),
+    GetPage(name: history, page: (() => const History())),
   ];
 }

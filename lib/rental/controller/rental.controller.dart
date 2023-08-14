@@ -20,9 +20,28 @@ class RentalController extends GetxController {
   String? imageIdentificationUrl;
   String? imageProductUrl;
 
+  File? imageReciept;
+  String? imageRecieptUrl;
+
   String? categoryInit = ProductType.DRILL;
 
+  String? selectedTab = 'ที่ต้องได้รับ';
+  List<String>? tab = ['ที่ต้องได้รับ', 'จัดส่งแล้ว'];
+
   Map<String, dynamic>? userData;
+
+  List<Map<String, dynamic>>? returnProductData = [];
+  List<Map<String, dynamic>>? orderData = [];
+
+  Map<String, dynamic>? userReceiveData;
+  void setActiveUserReceiveData(Map<String, dynamic>? active) {
+    userReceiveData = active;
+  }
+
+  Map<String, dynamic>? activeOrderData = {};
+  void setActiveOrderData(Map<String, dynamic>? active) {
+    activeOrderData = active;
+  }
 
   List<ProductModel>? product = [];
 
@@ -91,6 +110,11 @@ class RentalController extends GetxController {
     update();
   }
 
+  void setSelectTab(String? value) {
+    selectedTab = value;
+    update();
+  }
+
   Future<void> getUserData() async {
     try {
       var user = await FirebaseFirestore.instance
@@ -133,6 +157,7 @@ class RentalController extends GetxController {
           .where(
             "rentalId",
             isEqualTo: FirebaseAuth.instance.currentUser?.uid,
+            // isEqualTo: 1,
           )
           .get();
 
@@ -376,5 +401,213 @@ class RentalController extends GetxController {
       var imageUrl = await value.ref.getDownloadURL();
       imageIdentificationUrl = imageUrl;
     });
+  }
+
+  Future<void> getHistory({bool? isReceive}) async {
+    returnProductData = [];
+    try {
+      var response = await FirebaseFirestore.instance
+          .collection('history')
+          .where(
+            'rentalName',
+            isEqualTo: userData?['rentalName'],
+          )
+          // .where('isReceive', isEqualTo: isReceive)
+          .get();
+
+      for (var element in response.docs) {
+        print(element.data());
+        returnProductData?.add(element.data());
+      }
+
+      update();
+
+      print(returnProductData);
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  Future<void> getReturnProduct({bool? isReceive}) async {
+    returnProductData = [];
+    try {
+      var response = await FirebaseFirestore.instance
+          .collection('return-product')
+          .where(
+            'rentName',
+            isEqualTo: userData?['rentalName'],
+          )
+          .where('isReceive', isEqualTo: false)
+          .get();
+
+      for (var element in response.docs) {
+        print(element.data());
+        returnProductData?.add(element.data());
+      }
+
+      update();
+
+      print(returnProductData);
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  Future<void> getOrderRental() async {
+    orderData = [];
+
+    try {
+      var response = await FirebaseFirestore.instance
+          .collection('order-product')
+          .where(
+            'rentalName',
+            isEqualTo: userData?['rentalName'],
+          )
+          .get();
+
+      for (var element in response.docs) {
+        // var uuid = const Uuid();
+        Map<String, dynamic> data = {...element.data()};
+        orderData?.add(data);
+      }
+
+      print(orderData);
+      update();
+    } catch (e) {
+      debugPrint('$e');
+    }
+  }
+
+  Future<void> accepthItem({String? docId}) async {
+    // print(receiveProductModel?.docId);
+    try {
+      // receiveProductModel?.acceptItem?[index ?? 0] = true;
+      var response = await FirebaseFirestore.instance
+          .collection('return-product')
+          .doc(docId)
+          .update({
+        "isReceive": true,
+      });
+
+      getReturnProduct(isReceive: false);
+      // getReturnProduct();
+      update();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<void> deleteReturnProduct({String? docId}) async {
+    // print(receiveProductModel?.docId);
+    try {
+      // receiveProductModel?.acceptItem?[index ?? 0] = true;
+      var response = await FirebaseFirestore.instance
+          .collection('return-product')
+          .doc(docId)
+          .delete();
+
+      getReturnProduct(isReceive: true);
+      // getReturnProduct();
+      update();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<bool?> selectImageReceipt({required ImageSource imageSource}) async {
+    try {
+      final ImagePicker _picker = ImagePicker();
+      final XFile? _pickedImage = await _picker.pickImage(
+        source: imageSource,
+        imageQuality: 100,
+        maxHeight: 250,
+        maxWidth: 250,
+      );
+      if (_pickedImage != null) {
+        final Rx<File> _imagePath = File(_pickedImage.path).obs;
+        imageReciept = _imagePath.value;
+        update();
+        uploadReceiptImage(imageReciept!.path);
+
+        return true;
+      }
+
+      return false;
+    } catch (e) {
+      print(e);
+    }
+
+    return null;
+  }
+
+  Future<void> uploadReceiptImage(String imagePath) async {
+    var firebaseRef = await FirebaseStorage.instance
+        .ref()
+        .child('receipt-image/${imagePath.split('/').last}');
+    var uploadTask = firebaseRef.putFile(imageReciept!);
+    var taskSnapshot = await uploadTask.whenComplete(() async {
+      debugPrint('upload receipt success');
+    }).then((value) async {
+      var imageUrl = await value.ref.getDownloadURL();
+      imageRecieptUrl = imageUrl;
+    });
+  }
+
+  Future<void> getUserDataByUid() async {
+    try {
+      var user = await FirebaseFirestore.instance
+          .collection('users')
+          .where('uid', isEqualTo: activeOrderData?['uid'])
+          .get();
+      setActiveUserReceiveData(user.docs[0].data());
+      print(userReceiveData);
+      update();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
+  }
+
+  Future<bool?> updateTrackingProduct(
+      {String? trackingCompany, String? trackingProduct}) async {
+    try {
+      var response = await FirebaseFirestore.instance
+          .collection('receive-product')
+          .doc(activeOrderData?['docId'])
+          .update({
+        "trackingCompany": trackingCompany,
+        "trackingProduct": trackingProduct
+      });
+
+      var responseHistory = await FirebaseFirestore.instance
+          .collection('history')
+          .doc(activeOrderData?['docId'])
+          .update({
+        "trackingCompany": trackingCompany,
+        "trackingProduct": trackingProduct
+      });
+
+      update();
+
+      deleteOrderById();
+
+      return true;
+    } catch (e) {
+      debugPrint(e.toString());
+      return false;
+    }
+  }
+
+  Future<void> deleteOrderById() async {
+    try {
+      var response = await FirebaseFirestore.instance
+          .collection('order-product')
+          .doc(activeOrderData?['docId'])
+          .delete();
+
+      getOrderRental();
+      update();
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 }

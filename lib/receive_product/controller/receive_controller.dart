@@ -15,7 +15,6 @@ class ReceviceController extends GetxController {
 
   List<ReceiveProductModel>? receiveProductModel = [];
 
-
   String? deliveryCompanyInit;
   List<String> deliveryCompany = ["Kerry", "EMS", "Flash"];
 
@@ -43,7 +42,7 @@ class ReceviceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    getReceivceProduct();
+    
   }
 
   Future<void> getRentalByName() async {
@@ -144,12 +143,54 @@ class ReceviceController extends GetxController {
     }
   }
 
-  Future<bool?> addReturnProduct() async {
-    return null;
+  Future<bool?> addReturnProduct({
+    String? docId,
+    String? product,
+    String? productAmount,
+    String? productImage,
+    String? rentDay,
+    String? rentName,
+    String? trackingCompany,
+    String? deliveryCompany,
+  }) async {
+    print(docId);
+
+    try {
+      var response =
+          await _firebaseFirestore.collection('return-product').doc(docId).set({
+        "docId": docId,
+        "product": product,
+        "productAmount": productAmount,
+        "productImage": productImage,
+        "rentDay": rentDay,
+        "rentName": rentName,
+        "imageRecieptUrl": imageRecieptUrl,
+        "trackingCompany": trackingCompany,
+        "deliveryCompany": deliveryCompany,
+        "isReceive": false,
+        "createdAt": DateTime.now().millisecondsSinceEpoch,
+      });
+
+      await deleteReturnProduct(docId);
+
+      return true;
+    } catch (e) {
+      debugPrint('$e');
+      return false;
+    }
   }
 
-  Future<bool?> deleteReturnProduct() async {
-    return null;
+  Future<bool?> deleteReturnProduct(String? docId) async {
+    try {
+      var response = await _firebaseFirestore
+          .collection('receive-product')
+          .doc(docId)
+          .delete();
+      return true;
+    } catch (e) {
+      debugPrint('$e');
+      return false;
+    }
   }
 
   Future<bool?> selectImageReceipt({required ImageSource imageSource}) async {
@@ -181,10 +222,10 @@ class ReceviceController extends GetxController {
   Future<void> uploadReceiptImage(String imagePath) async {
     var firebaseRef = await FirebaseStorage.instance
         .ref()
-        .child('identification-image/${imagePath.split('/').last}');
+        .child('receipt-image/${imagePath.split('/').last}');
     var uploadTask = firebaseRef.putFile(imageReciept!);
     var taskSnapshot = await uploadTask.whenComplete(() async {
-      debugPrint('upload identification success');
+      debugPrint('upload receipt success');
     }).then((value) async {
       var imageUrl = await value.ref.getDownloadURL();
       imageRecieptUrl = imageUrl;

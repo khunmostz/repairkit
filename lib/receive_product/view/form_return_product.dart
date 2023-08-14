@@ -122,7 +122,26 @@ class _FormReturnProductState extends State<FormReturnProduct> {
                       Expanded(
                         child: CustomButton(
                           text: 'ยืนยัน',
-                          onTap: () async {},
+                          onTap: () async {
+                            bool? result = await controller.addReturnProduct(
+                              docId: controller.activeReceiveProduct?.docId,
+                              product: controller.activeReceiveProduct?.product,
+                              productAmount: controller
+                                  .activeReceiveProduct?.productAmount,
+                              productImage:
+                                  controller.activeReceiveProduct?.productImage,
+                              rentDay: controller.activeReceiveProduct?.rentDay,
+                              rentName:
+                                  controller.activeReceiveProduct?.rentalName,
+                              trackingCompany: codeDeliveryController.text,
+                              deliveryCompany: deliveryController.text,
+                            );
+
+                            if (result == true && mounted) {
+                              controller.getReturnProduct();
+                              Get.back();
+                            }
+                          },
                         ),
                       ),
                     ],

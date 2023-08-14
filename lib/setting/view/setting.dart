@@ -22,13 +22,21 @@ class Setting extends GetView<SettingController> {
               },
               child: const Text('Change Languages'),
             ),
-            GetBuilder<ThemeController>(builder: (themeController) {
-              return Switch(
-                  value: themeController.theme ?? false,
-                  onChanged: (value) {
-                    themeController.toggleTheme(value);
-                  });
-            })
+            GetBuilder<ThemeController>(
+              builder: (themeController) {
+                return Switch(
+                    value: themeController.theme ?? false,
+                    onChanged: (value) {
+                      themeController.toggleTheme(value);
+                    });
+              },
+            ),
+             TextButton(
+              onPressed: () {
+                controller.logout();
+              },
+              child: const Text('logout'),
+            ),
           ],
         ),
       ),

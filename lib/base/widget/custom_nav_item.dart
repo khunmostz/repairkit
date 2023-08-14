@@ -14,12 +14,12 @@ class CustomNavItem extends StatelessWidget {
         mainAxisAlignment: MainAxisAlignment.center,
         children: [
           icon ?? Container(),
-          Text(
-            name ?? '',
-            style: const TextStyle(
-              color: Colors.white,
-            ),
-          ),
+          // Text(
+          //   name ?? '',
+          //   style: const TextStyle(
+          //     color: Colors.white,
+          //   ),
+          // ),
         ],
       ),
     );

@@ -2,6 +2,7 @@ import "package:flash/flash.dart";
 import "package:flash/flash_helper.dart";
 import "package:flutter/material.dart";
 import "package:flutter_boilerplate/base/utils/constants/color.dart";
+import "package:flutter_boilerplate/base/utils/constants/enum.dart";
 import "package:flutter_boilerplate/base/utils/constants/size.dart";
 import "package:flutter_boilerplate/base/widget/custom_button.dart";
 import "package:flutter_boilerplate/base/widget/custom_textformfield.dart";
@@ -11,6 +12,8 @@ import "package:get/get.dart";
 class SignIn extends GetView<SignInController> {
   SignIn({super.key});
 
+  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+
   TextEditingController _emailController = TextEditingController();
   TextEditingController _passwordController = TextEditingController();
 
@@ -18,90 +21,97 @@ class SignIn extends GetView<SignInController> {
   Widget build(BuildContext context) {
     return Scaffold(
       body: Container(
-        width: size.width,
         height: size.height,
         color: ColorConstants.COLOR_BLUE_1,
         child: Padding(
           padding: const EdgeInsets.symmetric(horizontal: 24),
           child: SafeArea(
             child: SingleChildScrollView(
-              child: Column(
-                children: [
-                  Container(
-                    width: 188,
-                    height: 188,
-                    margin: const EdgeInsets.only(bottom: 40),
-                    decoration: BoxDecoration(
-                        borderRadius: BorderRadius.circular(22),
-                        image: const DecorationImage(
-                          image: AssetImage('assets/logo/rent-a-repair-kit.png'),
-                        )),
-                  ),
-                  CustomTextFormField(
-                    label: 'email'.tr,
-                    controller: _emailController,
-                  ),
-                  CustomTextFormField(
-                    label: 'password'.tr,
-                    controller: _passwordController,
-                  ),
-                  Padding(
-                    padding: const EdgeInsets.only(bottom: 24),
-                    child: Align(
-                      alignment: Alignment.centerRight,
-                      child: Text('forGotPassword'.tr),
+              child: Form(
+                key: _formKey,
+                // autovalidateMode: AutovalidateMode.onUserInteraction,
+                child: Column(
+                  children: [
+                    Container(
+                      width: 188,
+                      height: 188,
+                      margin: const EdgeInsets.only(bottom: 40, top: 24),
+                      decoration: BoxDecoration(
+                          borderRadius: BorderRadius.circular(22),
+                          image: const DecorationImage(
+                            image:
+                                AssetImage('assets/logo/rent-a-repair-kit.png'),
+                          )),
                     ),
-                  ),
-                  // 'login'.tr.toUpperCase()
-                  CustomButton(
-                    text: 'login'.tr.toUpperCase(),
-                    onTap: () {
-                      controller.signIn(context,email: _emailController.text,password: _passwordController.text);
-                      context.showFlash(
-                        duration: const Duration(seconds: 3),
-                        builder: (context, controller) => Flash(
-                          controller: controller,
-                          position: FlashPosition.bottom,
-                          dismissDirections: const [
-                            FlashDismissDirection.startToEnd
-                          ],
-                          child: SafeArea(
-                            child: Align(
-                              alignment: Alignment.bottomCenter,
-                              child: Padding(
-                                padding: const EdgeInsets.all(20),
-                                child: Material(
-                                  borderRadius: BorderRadius.circular(50),
-                                  child: Container(
-                                    width: size.width,
-                                    padding: const EdgeInsets.all(10),
-                                    decoration: BoxDecoration(
-                                        color: ColorConstants.COLOR_GREEN,
-                                        borderRadius: BorderRadius.circular(50)),
-                                    child: SafeArea(
-                                      child: Row(
-                                        children: const [
-                                          Icon(Icons.person),
-                                          Expanded(
-                                              child: Text(
-                                            'Login Success.',
-                                            style: TextStyle(
-                                                fontSize: 16,
-                                                fontWeight: FontWeight.w400),
-                                          )),
-                                        ],
-                                      ),
-                                    ),
-                                  ),
-                                ),
+                    CustomTextFormField(
+                      label: 'email'.tr,
+                      controller: _emailController,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "this field is required".tr;
+                        }
+                        if (!GetUtils.isEmail(value)) {
+                          return "Email is not valid";
+                        }
+                      },
+                    ),
+                    CustomTextFormField(
+                      label: 'password'.tr,
+                      controller: _passwordController,
+                      maxLines: 1,
+                      obscureText: true,
+                      autovalidateMode: AutovalidateMode.onUserInteraction,
+                      validator: (value) {
+                        if (value!.isEmpty) {
+                          return "this field is required".tr;
+                        }
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(bottom: 24),
+                      child: Align(
+                        alignment: Alignment.centerRight,
+                        child: Text('forGotPassword'.tr),
+                      ),
+                    ),
+                    // 'login'.tr.toUpperCase()
+                    CustomButton(
+                      text: 'login'.tr.toUpperCase(),
+                      onTap: () {
+                        if (_formKey.currentState!.validate()) {
+                          controller.signIn(context,
+                              email: _emailController.text,
+                              password: _passwordController.text);
+                        }
+                      },
+                    ),
+                    Padding(
+                      padding: const EdgeInsets.only(top: 24),
+                      child: Row(
+                        mainAxisAlignment: MainAxisAlignment.center,
+                        children: [
+                          Text(
+                            'Don’t have an account?'.tr,
+                          ),
+                          InkWell(
+                            onTap: () {
+                              Get.offNamed('/signUp');
+                            },
+                            child: Text(
+                              'signup'.tr,
+                              style: TextStyle(
+                                fontSize: 13,
+                                color: ColorConstants.COLOR_ORANGE,
+                                fontWeight: FontWeight.w700,
                               ),
                             ),
                           ),
-                        ),
-                      );
-                    },
-                  ),
-                ],
+                        ],
+                      ),
+                    )
+                  ],
+                ),
               ),
             ),
           ),

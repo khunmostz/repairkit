@@ -1,3 +1,3 @@
 class ApiEndPoints {
-  static String getUsers = 'api/users'; // example
+  static String postFcm = '/fcm/send'; // example
 }

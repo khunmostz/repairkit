@@ -90,15 +90,23 @@ class _MyShopState extends State<MyShop> {
                                     onTap: () {
                                       Get.toNamed(RouteConstants.order);
                                     },
-                                    child: Container(
-                                      child: Icon(Icons.card_giftcard),
-                                    ),
+                                    child: const Icon(Icons.card_travel),
                                   ),
-                                  Container(
-                                    child: Icon(Icons.card_giftcard),
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () {
+                                      Get.toNamed(RouteConstants.rentalReceive);
+                                    },
+                                    child: const Icon(Icons.mail),
                                   ),
-                                  Container(
-                                    child: Icon(Icons.card_giftcard),
+                                  InkWell(
+                                    splashColor: Colors.transparent,
+                                    highlightColor: Colors.transparent,
+                                    onTap: () {
+                                      Get.toNamed(RouteConstants.editShop);
+                                    },
+                                    child: const Icon(Icons.settings),
                                   )
                                 ],
                               ),
@@ -111,11 +119,11 @@ class _MyShopState extends State<MyShop> {
                               },
                               child: Container(
                                 margin: const EdgeInsets.only(bottom: 24),
-                                child: const Text('add product'),
+                                child: const Text('เพิ่มสินค้า'),
                               ),
                             ),
                             Container(
-                              child: const Text('my product'),
+                              child: const Text('สินค้าของฉัน'),
                             ),
                             SizedBox(
                               height: 20,

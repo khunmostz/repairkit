@@ -61,6 +61,9 @@ class Profile extends GetView<ProfileController> {
                               case "rent_store":
                                 Get.toNamed(RouteConstants.myShop);
                                 break;
+                              case "history_rent":
+                                Get.toNamed(RouteConstants.history);
+                                break;
                               default:
                             }
                           },

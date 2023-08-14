@@ -5,19 +5,19 @@ import 'package:flutter_boilerplate/base/utils/constants/size.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
 import 'package:flutter_boilerplate/base/widget/custom_button.dart';
 import 'package:flutter_boilerplate/base/widget/custom_textformfield.dart';
-import 'package:flutter_boilerplate/rental/controller/rental.controller.dart';
+import 'package:flutter_boilerplate/receive_product/controller/receive_controller.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
 
-class RequestOrder extends StatefulWidget {
-  const RequestOrder({super.key});
+class FormReturnProduct extends StatefulWidget {
+  const FormReturnProduct({super.key});
 
   @override
-  State<RequestOrder> createState() => _RequestOrderState();
+  State<FormReturnProduct> createState() => _FormReturnProductState();
 }
 
-class _RequestOrderState extends State<RequestOrder> {
-  RentalController controller = Get.find<RentalController>();
+class _FormReturnProductState extends State<FormReturnProduct> {
+  ReceviceController controller = Get.find<ReceviceController>();
 
   var deliveryController = TextEditingController();
   var codeDeliveryController = TextEditingController();
@@ -34,12 +34,13 @@ class _RequestOrderState extends State<RequestOrder> {
       'icon': const Icon(Icons.image),
     },
   ];
-
   @override
   void initState() {
     super.initState();
-    WidgetsBinding.instance.addPostFrameCallback((timeStamp) {
-      controller.getUserDataByUid();
+    controller.imageReciept = null;
+    controller.imageRecieptUrl = null;
+    WidgetsBinding.instance.addPostFrameCallback((_) {
+      controller.getRentalByName();
     });
   }
 
@@ -47,13 +48,13 @@ class _RequestOrderState extends State<RequestOrder> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       showCart: false,
-      titleName: 'คำขอออเดอร์',
+      titleName: 'ส่งสินค้าคืน',
       onBackPress: () {
         Get.back();
       },
       body: SizedBox(
         width: size.width,
-        child: GetBuilder<RentalController>(builder: (_) {
+        child: GetBuilder<ReceviceController>(builder: (_) {
           return SingleChildScrollView(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.center,
@@ -68,39 +69,19 @@ class _RequestOrderState extends State<RequestOrder> {
                     ),
                   ),
                 ),
-                Container(
-                  width: 200,
-                  height: 200,
-                  margin: const EdgeInsets.only(bottom: 20),
-                  child: Image.network(
-                      controller.activeOrderData?['productImage']),
-                ),
                 labelRow(
-                  title: 'ชื่อ',
-                  value: controller.userReceiveData?['name'],
-                ),
+                    title: 'ร้าน',
+                    value: controller.activeReceiveProduct?.rentalName),
                 labelRow(
-                  title: 'ที่อยู่',
-                  value: controller.userReceiveData?['address'],
-                ),
+                    title: 'ที่อยู่',
+                    value: controller.rentalModel?.rentalAddress),
                 labelRow(
-                  title: 'โทรศัพท์',
-                  value: controller.userReceiveData?['phone'],
-                ),
-                labelRow(
-                  title: 'ชื่อสินค้า',
-                  value: controller.activeOrderData?['product'],
-                ),
-                labelRow(
-                  title: 'จำนวนสินค้า',
-                  value: controller.activeOrderData?['productAmount'],
-                ),
+                    title: 'โทรศัพท์',
+                    value: controller.rentalModel?.rentalPhone),
                 labelRowTextField(
                     title: 'ขนส่ง', controller: deliveryController),
                 labelRowTextField(
-                  title: 'กรอกรหัสพัสดุ',
-                  controller: codeDeliveryController,
-                ),
+                    title: 'กรอกรหัสพัสดุ', controller: codeDeliveryController),
                 InkWell(
                   onTap: () {
                     openModalCamera(context);
@@ -142,14 +123,22 @@ class _RequestOrderState extends State<RequestOrder> {
                         child: CustomButton(
                           text: 'ยืนยัน',
                           onTap: () async {
-                            bool? result =
-                                await controller.updateTrackingProduct(
+                            bool? result = await controller.addReturnProduct(
+                              docId: controller.activeReceiveProduct?.docId,
+                              product: controller.activeReceiveProduct?.product,
+                              productAmount: controller
+                                  .activeReceiveProduct?.productAmount,
+                              productImage:
+                                  controller.activeReceiveProduct?.productImage,
+                              rentDay: controller.activeReceiveProduct?.rentDay,
+                              rentName:
+                                  controller.activeReceiveProduct?.rentalName,
                               trackingCompany: codeDeliveryController.text,
-                              trackingProduct: deliveryController.text,
+                              deliveryCompany: deliveryController.text,
                             );
 
                             if (result == true && mounted) {
-                              // controller.getReturnProduct();
+                              controller.getReturnProduct();
                               Get.back();
                             }
                           },

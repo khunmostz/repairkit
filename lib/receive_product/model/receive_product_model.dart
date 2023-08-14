@@ -4,61 +4,68 @@
 
 import 'dart:convert';
 
-ReceiveProductModel receiveProductModelFromJson(String str) => ReceiveProductModel.fromJson(json.decode(str));
+ReceiveProductModel receiveProductModelFromJson(String str) =>
+    ReceiveProductModel.fromJson(json.decode(str));
 
-String receiveProductModelToJson(ReceiveProductModel data) => json.encode(data.toJson());
+String receiveProductModelToJson(ReceiveProductModel data) =>
+    json.encode(data.toJson());
 
 class ReceiveProductModel {
-    String? rentDay;
-    String? uid;
-    String? product;
-    String? productAmount;
-    bool? acceptItem;
-    String? productImage;
-    String? docId;
-    String? trackingCompany;
-    String? rentalName;
-    String? trackingProduct;
+  String? rentDay;
+  String? uid;
+  String? product;
+  String? productAmount;
+  bool? acceptItem;
+  String? productImage;
+  String? docId;
+  String? trackingCompany;
+  String? rentalName;
+  String? trackingProduct;
+  int? createdAt;
 
-    ReceiveProductModel({
-        this.rentDay,
-        this.uid,
-        this.product,
-        this.productAmount,
-        this.acceptItem,
-        this.productImage,
-        this.docId,
-        this.trackingCompany,
-        this.rentalName,
-        this.trackingProduct,
-    });
+  ReceiveProductModel({
+    this.rentDay,
+    this.uid,
+    this.product,
+    this.productAmount,
+    this.acceptItem,
+    this.productImage,
+    this.docId,
+    this.trackingCompany,
+    this.rentalName,
+    this.trackingProduct,
+    this.createdAt,
+  });
 
-    ReceiveProductModel copyWith({
-        String? rentDay,
-        String? uid,
-        String? product,
-        String? productAmount,
-        bool? acceptItem,
-        String? productImage,
-        String? docId,
-        String? trackingCompany,
-        String? rentalName,
-        String? trackingProduct,
-    }) => 
-        ReceiveProductModel(
-            rentDay: rentDay ?? this.rentDay,
-            uid: uid ?? this.uid,
-            product: product ?? this.product,
-            productAmount: productAmount ?? this.productAmount,
-            acceptItem: acceptItem ?? this.acceptItem,
-            productImage: productImage ?? this.productImage,
-            docId: docId ?? this.docId,
-            trackingCompany: trackingCompany ?? this.trackingCompany,
-            rentalName: rentalName ?? this.rentalName,
-            trackingProduct: trackingProduct ?? this.trackingProduct,
-        );
+  ReceiveProductModel copyWith({
+    String? rentDay,
+    String? uid,
+    String? product,
+    String? productAmount,
+    bool? acceptItem,
+    String? productImage,
+    String? docId,
+    String? trackingCompany,
+    String? rentalName,
+    String? trackingProduct,
+    int? createdAt,
+  }) =>
+      ReceiveProductModel(
+        rentDay: rentDay ?? this.rentDay,
+        uid: uid ?? this.uid,
+        product: product ?? this.product,
+        productAmount: productAmount ?? this.productAmount,
+        acceptItem: acceptItem ?? this.acceptItem,
+        productImage: productImage ?? this.productImage,
+        docId: docId ?? this.docId,
+        trackingCompany: trackingCompany ?? this.trackingCompany,
+        rentalName: rentalName ?? this.rentalName,
+        trackingProduct: trackingProduct ?? this.trackingProduct,
+        createdAt: createdAt ?? this.createdAt,
+      );
 
-    factory ReceiveProductModel.fromJson(Map<String, dynamic> json) => ReceiveProductModel(
+  factory ReceiveProductModel.fromJson(Map<String, dynamic> json) =>
+      ReceiveProductModel(
         rentDay: json["rentDay"],
         uid: json["uid"],
         product: json["product"],
@@ -69,9 +76,10 @@ class ReceiveProductModel {
         trackingCompany: json["trackingCompany"],
         rentalName: json["rentalName"],
         trackingProduct: json["trackingProduct"],
-    );
+        createdAt: json["createdAt"],
+      );
 
-    Map<String, dynamic> toJson() => {
+  Map<String, dynamic> toJson() => {
         "rentDay": rentDay,
         "uid": uid,
         "product": product,
@@ -82,5 +90,6 @@ class ReceiveProductModel {
         "trackingCompany": trackingCompany,
         "rentalName": rentalName,
         "trackingProduct": trackingProduct,
-    };
+        "createdAt": createdAt,
+      };
 }

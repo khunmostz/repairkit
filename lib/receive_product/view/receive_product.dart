@@ -3,34 +3,45 @@ import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/route.dart';
 import 'package:flutter_boilerplate/base/utils/constants/size.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
+import 'package:flutter_boilerplate/chat/controller/chat.controller.dart';
 import 'package:flutter_boilerplate/receive_product/controller/receive_controller.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
-class ReceiveProduct extends StatelessWidget {
+class ReceiveProduct extends StatefulWidget {
   const ReceiveProduct({super.key});
 
   @override
-  Widget build(BuildContext context) {
-    var controller = Get.put(ReceviceController());
+  State<ReceiveProduct> createState() => _ReceiveProductState();
+}
 
+class _ReceiveProductState extends State<ReceiveProduct> {
+  var controller = Get.put(ReceviceController());
+
+  @override
+  void initState() {
+    // TODO: implement initState
+    super.initState();
+    controller.getReceivceProduct();
+  }
+
+  @override
+  Widget build(BuildContext context) {
     return WillPopScope(
       onWillPop: () async {
-        // Get.offNamedUntil(RouteConstants.layout, (route) {
-        //   return true;
-        // });
-        // Get.offAndToNamed(RouteConstants.layout);
-        // controller.
+        Get.delete<ChatController>();
+        Get.offNamedUntil(RouteConstants.layout, (route) {
+          return true;
+        });
         return true;
       },
       child: BaseScaffold(
         showBackPress: true,
-        // showCart: false,
         onBackPress: () {
-          Get.back();
-        //  Get.offNamedUntil(RouteConstants.layout, (route) {
-        //   return true;
-        // });
+          Get.delete<ChatController>();
+          Get.offNamedUntil(RouteConstants.layout, (route) {
+            return true;
+          });
         },
         titleName: 'Receive product',
         body: GetBuilder<ReceviceController>(builder: (context) {
@@ -46,11 +57,11 @@ class ReceiveProduct extends StatelessWidget {
                         onTap: () {
                           controller.setSelectTab(controller.tab?[index]);
                           switch (controller.selectedTab) {
-                            case 'Recevice Product':
-                                controller.getReceivceProduct();
+                            case 'รับสินค้า':
+                              controller.getReceivceProduct();
                               break;
-                            case 'Return Product':
-                                controller.getReturnProduct();
+                            case 'ส่งสินค้าคืน':
+                              controller.getReturnProduct();
                               break;
                             default:
                           }
@@ -77,7 +88,7 @@ class ReceiveProduct extends StatelessWidget {
                   ),
                 ),
               ),
-              if (controller.selectedTab == 'Recevice Product') ...{
+              if (controller.selectedTab == 'ส่งสินค้าคืน') ...{
                 ...List.generate(
                   controller.receiveProductModel?.length ?? 0,
                   (index) => _receiveItem(
@@ -87,21 +98,23 @@ class ReceiveProduct extends StatelessWidget {
                       product:
                           controller.receiveProductModel?[index].product ?? '',
                       trackingCompany: controller
-                              .receiveProductModel?[index].trackingCompany ??
+                              .receiveProductModel?[index].trackingProduct ??
                           '',
                       trackingProduct: controller
-                              .receiveProductModel?[index].trackingProduct ??
+                              .receiveProductModel?[index].trackingCompany ??
                           "",
                       productImage:
                           controller.receiveProductModel?[index].productImage ??
                               "",
                       onAccept: () {
-                        controller.accepthItem(index: index);
+                        // controller.accepthItem(index: index);
+                        controller.setActiveReceiveProduct(
+                            controller.receiveProductModel?[index]);
+                        Get.toNamed(RouteConstants.formReturnProduct);
                       }),
                 ),
-              } else
-                ...{
-                   ...List.generate(
+              } else ...{
+                ...List.generate(
                   controller.receiveProductModel?.length ?? 0,
                   (index) => _receiveItem(
                       rentalName:
@@ -110,10 +123,10 @@ class ReceiveProduct extends StatelessWidget {
                       product:
                           controller.receiveProductModel?[index].product ?? '',
                       trackingCompany: controller
-                              .receiveProductModel?[index].trackingCompany ??
+                              .receiveProductModel?[index].trackingProduct ??
                           '',
                       trackingProduct: controller
-                              .receiveProductModel?[index].trackingProduct ??
+                              .receiveProductModel?[index].trackingCompany ??
                           "",
                       productImage:
                           controller.receiveProductModel?[index].productImage ??
@@ -122,7 +135,7 @@ class ReceiveProduct extends StatelessWidget {
                         controller.accepthItem(index: index);
                       }),
                 ),
-                }
+              }
             ],
           );
         }),

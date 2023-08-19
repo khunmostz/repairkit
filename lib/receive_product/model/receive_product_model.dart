@@ -21,6 +21,7 @@ class ReceiveProductModel {
   String? trackingCompany;
   String? rentalName;
   String? trackingProduct;
+  String? eachPrice;
   int? createdAt;
 
   ReceiveProductModel({
@@ -34,6 +35,7 @@ class ReceiveProductModel {
     this.trackingCompany,
     this.rentalName,
     this.trackingProduct,
+    this.eachPrice,
     this.createdAt,
   });
 
@@ -48,6 +50,7 @@ class ReceiveProductModel {
     String? trackingCompany,
     String? rentalName,
     String? trackingProduct,
+    String? eachPrice,
     int? createdAt,
   }) =>
       ReceiveProductModel(
@@ -61,6 +64,7 @@ class ReceiveProductModel {
         trackingCompany: trackingCompany ?? this.trackingCompany,
         rentalName: rentalName ?? this.rentalName,
         trackingProduct: trackingProduct ?? this.trackingProduct,
+        eachPrice: eachPrice ?? this.eachPrice,
         createdAt: createdAt ?? this.createdAt,
       );
 
@@ -77,6 +81,7 @@ class ReceiveProductModel {
         rentalName: json["rentalName"],
         trackingProduct: json["trackingProduct"],
         createdAt: json["createdAt"],
+        eachPrice: json["eachPrice"],
       );
 
   Map<String, dynamic> toJson() => {
@@ -91,5 +96,6 @@ class ReceiveProductModel {
         "rentalName": rentalName,
         "trackingProduct": trackingProduct,
         "createdAt": createdAt,
+        "eachPrice": eachPrice,
       };
 }

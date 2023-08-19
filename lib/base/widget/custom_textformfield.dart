@@ -16,6 +16,7 @@ class CustomTextFormField extends StatelessWidget {
       this.keyboardType,
       this.isDense,
       this.hintText,
+      this.readOnly,
       this.showBorder, this.suffixIcon, this.obscureText});
 
   final String? label;
@@ -32,6 +33,7 @@ class CustomTextFormField extends StatelessWidget {
   final bool? showBorder;
   final Widget? suffixIcon;
   final bool? obscureText;
+  final bool? readOnly;
 
   @override
   Widget build(BuildContext context) {
@@ -59,6 +61,7 @@ class CustomTextFormField extends StatelessWidget {
             inputFormatters: inputFormatters,
             keyboardType: keyboardType,
             obscureText: obscureText ?? false,
+            readOnly: readOnly ?? false,
             decoration: InputDecoration(
               isDense: isDense,
               filled: true,

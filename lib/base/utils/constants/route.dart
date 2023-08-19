@@ -11,6 +11,7 @@ import 'package:flutter_boilerplate/payment/view/payment_successful.dart';
 import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:flutter_boilerplate/product/view/product.dart';
 import 'package:flutter_boilerplate/product/view/product_detail.dart';
+import 'package:flutter_boilerplate/profie/view/edit_profile.dart';
 import 'package:flutter_boilerplate/receive_product/view/form_return_product.dart';
 import 'package:flutter_boilerplate/receive_product/view/receive_product.dart';
 import 'package:flutter_boilerplate/rental/view/add_product.dart';
@@ -20,6 +21,7 @@ import 'package:flutter_boilerplate/rental/view/my_shop.dart';
 import 'package:flutter_boilerplate/rental/view/order.dart';
 import 'package:flutter_boilerplate/rental/view/rental_receive.dart';
 import 'package:flutter_boilerplate/rental/view/request_order.dart';
+import 'package:flutter_boilerplate/rental_check/view/rental_check.dart';
 import 'package:flutter_boilerplate/setting/view/setting.dart';
 import 'package:flutter_boilerplate/signin/view/sigin.dart';
 import 'package:flutter_boilerplate/signup/view/signup.dart';
@@ -48,6 +50,8 @@ class RouteConstants {
   static String rentalReceive = '/rental/receive';
   static String requestOrder = '/request/order';
   static String history = '/history';
+  static String rentalCheck = '/rentalCheck';
+  static String editProfile = '/editProfile';
 
   static List<GetPage> page = [
     GetPage(name: layout, page: () => const Layout()),
@@ -82,5 +86,7 @@ class RouteConstants {
     GetPage(name: rentalReceive, page: (() => const RentalReceive())),
     GetPage(name: requestOrder, page: (() => const RequestOrder())),
     GetPage(name: history, page: (() => const History())),
+    GetPage(name: rentalCheck, page: (() => const RentalCheck())),
+    GetPage(name: editProfile, page: (() => const EditProfile())),
   ];
 }

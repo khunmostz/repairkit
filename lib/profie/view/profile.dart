@@ -1,4 +1,3 @@
-import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/route.dart';
@@ -14,7 +13,6 @@ class Profile extends GetView<ProfileController> {
 
   @override
   Widget build(BuildContext context) {
-    
     controller.getProfile();
     return Scaffold(
       backgroundColor: ColorConstants.COLOR_WHITE,
@@ -32,19 +30,22 @@ class Profile extends GetView<ProfileController> {
                     children: [
                       CircleAvatar(
                         backgroundColor: ColorConstants.COLOR_BLUE,
-                        backgroundImage: controller.dataProfile['imageProfile'] != null? NetworkImage(
-                                controller.dataProfile['imageProfile'],) : null,
+                        backgroundImage:
+                            controller.dataProfile['imageProfile'] != null
+                                ? NetworkImage(
+                                    controller.dataProfile['imageProfile'],
+                                  )
+                                : null,
                         radius: 40,
-                       
                       ),
-                       Positioned(
+                      Positioned(
                         right: -10,
                         bottom: 0,
                         child: InkWell(
-                          onTap: (){
+                          onTap: () {
                             openModalCamera(context);
                           },
-                          child:const  CircleAvatar(
+                          child: const CircleAvatar(
                             radius: 20,
                             child: Icon(Icons.camera),
                           ),
@@ -54,7 +55,7 @@ class Profile extends GetView<ProfileController> {
                   ),
                   Padding(
                     padding: const EdgeInsets.all(8.0),
-                    child: Text(controller.dataProfile['name']),
+                    child: Text(controller.dataProfile['name'] ?? "-"),
                   ),
                   Padding(
                     padding: const EdgeInsets.only(bottom: 24),
@@ -119,19 +120,19 @@ class Profile extends GetView<ProfileController> {
     );
   }
 
-   Future<dynamic> openModalCamera(BuildContext context) {
-      List<Map<String, dynamic>> cameraList = [
-    {
-      'name': "camera",
-      'title': "กล้อง",
-      'icon': const Icon(Icons.camera),
-    },
-    {
-      'name': "gallery",
-      'title': "แกลลอรี่",
-      'icon': const Icon(Icons.image),
-    },
-  ];
+  Future<dynamic> openModalCamera(BuildContext context) {
+    List<Map<String, dynamic>> cameraList = [
+      {
+        'name': "camera",
+        'title': "กล้อง",
+        'icon': const Icon(Icons.camera),
+      },
+      {
+        'name': "gallery",
+        'title': "แกลลอรี่",
+        'icon': const Icon(Icons.image),
+      },
+    ];
     return showModalBottomSheet(
       context: context,
       builder: (BuildContext context) {
@@ -142,21 +143,19 @@ class Profile extends GetView<ProfileController> {
             children: cameraList
                 .map((e) => InkWell(
                       onTap: () async {
-                     
-                          switch (e['name']) {
-                            case 'camera':
-                              bool? result = await controller.selectImageProfile(
-                                  imageSource: ImageSource.camera);
-                              if (result == true && context.mounted) Get.back();
-                              break;
-                            case 'gallery':
-                              bool? result = await controller.selectImageProfile(
-                                  imageSource: ImageSource.gallery);
-                              if (result == true && context.mounted) Get.back();
-                              break;
-                            default:
-                          }
-                        
+                        switch (e['name']) {
+                          case 'camera':
+                            bool? result = await controller.selectImageProfile(
+                                imageSource: ImageSource.camera);
+                            if (result == true && context.mounted) Get.back();
+                            break;
+                          case 'gallery':
+                            bool? result = await controller.selectImageProfile(
+                                imageSource: ImageSource.gallery);
+                            if (result == true && context.mounted) Get.back();
+                            break;
+                          default:
+                        }
                       },
                       child: Padding(
                         padding: const EdgeInsets.all(8.0),

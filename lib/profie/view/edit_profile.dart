@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/size.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
@@ -93,6 +94,11 @@ class _EditProfileState extends State<EditProfile> {
                     label: 'หมายเลขโทรศัพท์',
                     showBorder: true,
                     controller: phoneController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "this field is required".tr;

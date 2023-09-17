@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/size.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
@@ -31,7 +32,7 @@ class _EditShopState extends State<EditShop> {
       onBackPress: () {
         Get.back();
       },
-      titleName: 'สร้างร้านให้เช่า',
+      titleName: 'ตั้งค่าร้านให้เช่า',
       body: Form(
         key: _formKey,
         child: SizedBox(
@@ -104,6 +105,11 @@ class _EditShopState extends State<EditShop> {
                     label: 'หมายเลขโทรศัพท์',
                     showBorder: true,
                     controller: rentalPhoneController,
+                    keyboardType: TextInputType.number,
+                    inputFormatters: [
+                      LengthLimitingTextInputFormatter(10),
+                      FilteringTextInputFormatter.digitsOnly
+                    ],
                     validator: (value) {
                       if (value!.isEmpty) {
                         return "this field is required".tr;

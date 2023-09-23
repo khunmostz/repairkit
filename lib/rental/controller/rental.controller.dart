@@ -9,6 +9,7 @@ import 'package:flutter_boilerplate/base/utils/constants/enum.dart';
 import 'package:flutter_boilerplate/product/model/product.model.dart';
 import 'package:get/get.dart';
 import 'package:image_picker/image_picker.dart';
+import 'package:uuid/uuid.dart';
 
 class RentalController extends GetxController {
   bool? haveRental;
@@ -247,12 +248,11 @@ class RentalController extends GetxController {
       String? productInfo,
       int? productAmount,
       String? productPrice}) async {
-    Random random = Random();
-    var num = random.nextInt(9999);
+    var uuid = const Uuid().v4();
 
     try {
-      await FirebaseFirestore.instance.collection('product').doc("$num").set({
-        "docId": num,
+      await FirebaseFirestore.instance.collection('product').doc(uuid).set({
+        "docId": uuid,
         "rentalId": userData?["rentalId"],
         "productImage": imageProductUrl,
         "productName": productName,

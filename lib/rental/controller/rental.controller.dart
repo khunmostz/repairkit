@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -246,8 +247,12 @@ class RentalController extends GetxController {
       String? productInfo,
       int? productAmount,
       String? productPrice}) async {
+    Random random = Random();
+    var num = random.nextInt(999999999999);
+
     try {
-      await FirebaseFirestore.instance.collection('product').add({
+      await FirebaseFirestore.instance.collection('product').doc("$num").set({
+        "docId": num,
         "rentalId": userData?["rentalId"],
         "productImage": imageProductUrl,
         "productName": productName,
@@ -282,16 +287,16 @@ class RentalController extends GetxController {
 
   Future<bool?> selectImageProduct({required ImageSource imageSource}) async {
     try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? _pickedImage = await _picker.pickImage(
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedImage = await picker.pickImage(
         source: imageSource,
         imageQuality: 100,
         maxHeight: 250,
         maxWidth: 250,
       );
-      if (_pickedImage != null) {
-        final Rx<File> _imagePath = File(_pickedImage.path).obs;
-        imageProduct = _imagePath.value;
+      if (pickedImage != null) {
+        final Rx<File> imagePath = File(pickedImage.path).obs;
+        imageProduct = imagePath.value;
         update();
         uploadProductImage(imageProduct!.path);
 
@@ -308,16 +313,16 @@ class RentalController extends GetxController {
 
   Future<bool?> selectImageRental({required ImageSource imageSource}) async {
     try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? _pickedImage = await _picker.pickImage(
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedImage = await picker.pickImage(
         source: imageSource,
         imageQuality: 100,
         maxHeight: 250,
         maxWidth: 250,
       );
-      if (_pickedImage != null) {
-        final Rx<File> _imagePath = File(_pickedImage.path).obs;
-        imageRental = _imagePath.value;
+      if (pickedImage != null) {
+        final Rx<File> imagePath = File(pickedImage.path).obs;
+        imageRental = imagePath.value;
         update();
         uploadRentalImage(imageRental!.path);
 
@@ -335,16 +340,16 @@ class RentalController extends GetxController {
   Future<bool?> selectImageIdentification(
       {required ImageSource imageSource}) async {
     try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? _pickedImage = await _picker.pickImage(
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedImage = await picker.pickImage(
         source: imageSource,
         imageQuality: 100,
         maxHeight: 250,
         maxWidth: 250,
       );
-      if (_pickedImage != null) {
-        final Rx<File> _imagePath = File(_pickedImage.path).obs;
-        imageIdentification = _imagePath.value;
+      if (pickedImage != null) {
+        final Rx<File> imagePath = File(pickedImage.path).obs;
+        imageIdentification = imagePath.value;
         update();
         uploadIdentificationImage(imageIdentification!.path);
         return true;
@@ -378,7 +383,7 @@ class RentalController extends GetxController {
   }
 
   Future<void> uploadRentalImage(String imagePath) async {
-    var firebaseRef = await FirebaseStorage.instance
+    var firebaseRef = FirebaseStorage.instance
         .ref()
         .child('rental-image/${imagePath.split('/').last}');
     var uploadTask = firebaseRef.putFile(imageRental!);
@@ -391,7 +396,7 @@ class RentalController extends GetxController {
   }
 
   Future<void> uploadIdentificationImage(String imagePath) async {
-    var firebaseRef = await FirebaseStorage.instance
+    var firebaseRef = FirebaseStorage.instance
         .ref()
         .child('identification-image/${imagePath.split('/').last}');
     var uploadTask = firebaseRef.putFile(imageIdentification!);
@@ -516,16 +521,16 @@ class RentalController extends GetxController {
 
   Future<bool?> selectImageReceipt({required ImageSource imageSource}) async {
     try {
-      final ImagePicker _picker = ImagePicker();
-      final XFile? _pickedImage = await _picker.pickImage(
+      final ImagePicker picker = ImagePicker();
+      final XFile? pickedImage = await picker.pickImage(
         source: imageSource,
         imageQuality: 100,
         maxHeight: 250,
         maxWidth: 250,
       );
-      if (_pickedImage != null) {
-        final Rx<File> _imagePath = File(_pickedImage.path).obs;
-        imageReciept = _imagePath.value;
+      if (pickedImage != null) {
+        final Rx<File> imagePath = File(pickedImage.path).obs;
+        imageReciept = imagePath.value;
         update();
         uploadReceiptImage(imageReciept!.path);
 
@@ -541,7 +546,7 @@ class RentalController extends GetxController {
   }
 
   Future<void> uploadReceiptImage(String imagePath) async {
-    var firebaseRef = await FirebaseStorage.instance
+    var firebaseRef = FirebaseStorage.instance
         .ref()
         .child('receipt-image/${imagePath.split('/').last}');
     var uploadTask = firebaseRef.putFile(imageReciept!);

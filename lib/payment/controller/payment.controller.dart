@@ -24,11 +24,11 @@ class PaymentController extends GetxController {
           _firebaseFirestore
               .collection('receive-product')
               .doc(
-                  '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}')
+                  '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}')
               .set({
             "uid": FirebaseAuth.instance.currentUser?.uid,
             "docId":
-                '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}',
+                '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}',
             "product": Get.find<CartController>().cartList?[i].productName,
             "productImage":
                 Get.find<CartController>().cartList?[i].productImage,
@@ -47,11 +47,11 @@ class PaymentController extends GetxController {
           _firebaseFirestore
               .collection('order-product')
               .doc(
-                  '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}')
+                  '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}')
               .set({
             "uid": FirebaseAuth.instance.currentUser?.uid,
             "docId":
-                '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}',
+                '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}',
             "product": Get.find<CartController>().cartList?[i].productName,
             "productImage":
                 Get.find<CartController>().cartList?[i].productImage,
@@ -70,11 +70,11 @@ class PaymentController extends GetxController {
           _firebaseFirestore
               .collection('history')
               .doc(
-                  '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}')
+                  '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}')
               .set({
             "uid": FirebaseAuth.instance.currentUser?.uid,
             "docId":
-                '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}',
+                '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}',
             "product": Get.find<CartController>().cartList?[i].productName,
             "productImage":
                 Get.find<CartController>().cartList?[i].productImage,

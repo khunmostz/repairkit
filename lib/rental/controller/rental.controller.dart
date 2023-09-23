@@ -248,7 +248,7 @@ class RentalController extends GetxController {
       int? productAmount,
       String? productPrice}) async {
     Random random = Random();
-    var num = random.nextInt(999999999999);
+    var num = random.nextInt(9999);
 
     try {
       await FirebaseFirestore.instance.collection('product').doc("$num").set({

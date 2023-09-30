@@ -6,7 +6,6 @@ import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
 import 'package:flutter_boilerplate/base/widget/custom_textformfield.dart';
 import 'package:flutter_boilerplate/base/widget/custom_overlay.dart';
 import 'package:flutter_boilerplate/cart/controller/cart.controller.dart';
-import 'package:flutter_boilerplate/chat/controller/chat.controller.dart';
 import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:flutter_boilerplate/product/model/product.model.dart';
 import 'package:get/get.dart';
@@ -18,10 +17,6 @@ class Product extends GetView<ProductController> {
   Widget build(BuildContext context) {
     return BaseScaffold(
       onBackPress: () => Get.back(),
-      // onBackPress: () {
-      //   Get.delete<ChatController>();
-      //   Get.toNamed(RouteConstants.layout);
-      // },
       titleName: 'Product',
       onCartPress: () async {
         await Get.showOverlay(
@@ -42,6 +37,10 @@ class Product extends GetView<ProductController> {
                 Icons.search,
                 color: ColorConstants.COLOR_BLUE,
               ),
+              onChanged: (value) {
+                print(value);
+                controller.searchProduct(value);
+              },
             ),
             GetBuilder<ProductController>(builder: (_) {
               if (controller.isLoading == true) {

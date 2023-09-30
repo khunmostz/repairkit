@@ -8,30 +8,15 @@ import 'package:flutter_carousel_slider/carousel_slider.dart';
 import 'package:get/get.dart';
 
 class Home extends GetView<HomeController> {
-  Home({super.key});
+  const Home({super.key});
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
         backgroundColor: ColorConstants.COLOR_BLUE,
-        leadingWidth: size.width * 0.7,
-        elevation: 0,
-        leading: Padding(
-          padding: const EdgeInsets.all(8.0),
-          child: TextFormField(
-            decoration: InputDecoration(
-              hintText: 'Search name product'.tr,
-              border: InputBorder.none,
-              filled: true,
-              fillColor: ColorConstants.COLOR_WHITE,
-              suffixIcon: Icon(
-                Icons.search,
-                color: ColorConstants.COLOR_BLUE,
-              ),
-            ),
-          ),
-        ),
+        // leadingWidth: size.width * 0.7,
+        title: Text("Repairkit".toUpperCase()),
         actions: [
           InkWell(
             onTap: () async {
@@ -41,10 +26,8 @@ class Home extends GetView<HomeController> {
                 loadingWidget: const CustomOverlay(),
               );
               Get.toNamed('/cart');
-
             },
-            child: GetBuilder<CartController>(
-                builder: (cartController) {
+            child: GetBuilder<CartController>(builder: (cartController) {
               return Padding(
                 padding: const EdgeInsets.only(right: 8, left: 8),
                 child: Center(
@@ -96,7 +79,8 @@ class Home extends GetView<HomeController> {
                             color: ColorConstants.COLOR_BLUE,
                             margin: const EdgeInsets.all(8),
                             padding: const EdgeInsets.all(10),
-                            child: Image.asset(e['image'].toString(),scale: 0.5),
+                            child:
+                                Image.asset(e['image'].toString(), scale: 0.5),
                           ),
                         ),
                       )

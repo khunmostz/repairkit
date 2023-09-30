@@ -27,7 +27,7 @@ class _MyShopState extends State<MyShop> {
       showCart: false,
       body: GetBuilder<RentalController>(
           init: RentalController(),
-          builder: (context) {
+          builder: (_) {
             return SizedBox(
               width: size.width,
               height: size.height,
@@ -122,15 +122,14 @@ class _MyShopState extends State<MyShop> {
                                 child: const Text('เพิ่มสินค้า'),
                               ),
                             ),
-                            Container(
-                              child: const Text('สินค้าของฉัน'),
-                            ),
-                            SizedBox(
+                            const Text('สินค้าของฉัน'),
+                            const SizedBox(
                               height: 20,
                             ),
                             if (controller.product != null) ...{
                               Expanded(
                                 child: GridView.count(
+                                  physics: const BouncingScrollPhysics(),
                                   crossAxisCount: 2,
                                   mainAxisSpacing: 10,
                                   crossAxisSpacing: 10,
@@ -142,9 +141,17 @@ class _MyShopState extends State<MyShop> {
                                                 child: Column(
                                                   children: [
                                                     Expanded(
-                                                      child: Image.network(
-                                                        e.productImage ?? '',
-                                                        fit: BoxFit.cover,
+                                                      child: InkWell(
+                                                        onTap: () {
+                                                          Get.toNamed(
+                                                              RouteConstants
+                                                                  .editProduct,
+                                                              arguments: e);
+                                                        },
+                                                        child: Image.network(
+                                                          e.productImage ?? '',
+                                                          fit: BoxFit.cover,
+                                                        ),
                                                       ),
                                                     ),
                                                     Padding(
@@ -153,7 +160,75 @@ class _MyShopState extends State<MyShop> {
                                                               8.0),
                                                       child: Text(
                                                           e.productName ?? ''),
-                                                    )
+                                                    ),
+                                                    InkWell(
+                                                      onTap: () {
+                                                        showDialog(
+                                                            context: context,
+                                                            builder: (context) {
+                                                              return AlertDialog(
+                                                                title: const Text(
+                                                                    "ต้องการลบสินค้าหรือไม่ ?"),
+                                                                actions: [
+                                                                  ElevatedButton(
+                                                                    style: ElevatedButton
+                                                                        .styleFrom(
+                                                                      backgroundColor:
+                                                                          Colors
+                                                                              .red,
+                                                                    ),
+                                                                    onPressed:
+                                                                        () {
+                                                                      Get.back();
+                                                                    },
+                                                                    child: const Text(
+                                                                        "ยกเลิก"),
+                                                                  ),
+                                                                  ElevatedButton(
+                                                                    onPressed:
+                                                                        () async {
+                                                                      bool?
+                                                                          result =
+                                                                          await controller.deleteProduct(
+                                                                              docId: e.docId);
+
+                                                                      if (result ==
+                                                                              true &&
+                                                                          mounted) {
+                                                                        Get.back();
+                                                                        controller
+                                                                            .getProductRental();
+                                                                      }
+                                                                    },
+                                                                    child: const Text(
+                                                                        "ยืนยัน"),
+                                                                  )
+                                                                ],
+                                                              );
+                                                            });
+                                                      },
+                                                      child: Container(
+                                                        width: size.width,
+                                                        decoration:
+                                                            const BoxDecoration(
+                                                          color: Colors.red,
+                                                        ),
+                                                        padding:
+                                                            const EdgeInsets
+                                                                .all(4),
+                                                        child: const Text(
+                                                          "ลบสินค้า",
+                                                          textAlign:
+                                                              TextAlign.center,
+                                                          style: TextStyle(
+                                                            color: Colors.white,
+                                                            fontSize: 16,
+                                                            fontWeight:
+                                                                FontWeight.bold,
+                                                          ),
+                                                        ),
+                                                      ),
+                                                    ),
                                                   ],
                                                 ),
                                               ))

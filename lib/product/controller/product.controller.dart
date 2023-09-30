@@ -74,8 +74,6 @@ class ProductController extends GetxController {
             rating: data['rating'],
           ));
 
-        
-
           if (product != null) {
             isLoading = false;
           }
@@ -129,6 +127,20 @@ class ProductController extends GetxController {
     // print(totalDay);
     totalPrice = totalDay * (amount ?? 0);
     update();
+  }
+
+  void searchProduct(String value) {
+    if (value != "") {
+      List<ProductModel> filter =
+          product?.where((e) => e.productName!.startsWith(value)).toList() ??
+              product ??
+              [];
+      product = filter;
+      update();
+    } else {
+      product?.clear();
+      getProductCategory();
+    }
   }
 
   //#endregion logic product detail

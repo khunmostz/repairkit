@@ -1,5 +1,4 @@
 import 'dart:io';
-import 'dart:math';
 
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
@@ -171,24 +170,58 @@ class RentalController extends GetxController {
         Timestamp timestamp = data['productTime'];
         DateTime date = timestamp.toDate();
 
-        print(data['productImage']);
+        // print(data['productImage']);
 
         product?.add(ProductModel(
-          rentalId: data['rentalId'],
-          productCategory: data['productCategory'],
-          productName: data['productName'],
-          productPrice: data['productPrice'],
-          productAmount: data['productAmount'],
-          productInfo: data['productInfo'],
-          productDate: date,
-          productImage: data['productImage'],
-          rating: data['rating'],
-        ));
+            rentalId: data['rentalId'],
+            productCategory: data['productCategory'],
+            productName: data['productName'],
+            productPrice: data['productPrice'],
+            productAmount: data['productAmount'],
+            productInfo: data['productInfo'],
+            productDate: date,
+            productImage: data['productImage'],
+            rating: data['rating'],
+            docId: data['docId']));
       }
 
       update();
     } catch (e) {
       debugPrint(e.toString());
+    }
+  }
+
+  Future<bool?> updateProduct(
+      {String? docId,
+      String? productName,
+      String? productInfo,
+      int? productPrice}) async {
+    try {
+      var response = await FirebaseFirestore.instance
+          .collection('product')
+          .doc(docId)
+          .update({
+        "productName": productName,
+        "productInfo": productInfo,
+        "productPrice": productPrice,
+      });
+      return true;
+    } catch (e) {
+      debugPrint('$e');
+      return false;
+    }
+  }
+
+  Future<bool?> deleteProduct({String? docId}) async {
+    try {
+      var response = await FirebaseFirestore.instance
+          .collection('product')
+          .doc(docId)
+          .delete();
+      return true;
+    } catch (e) {
+      debugPrint('$e');
+      return false;
     }
   }
 

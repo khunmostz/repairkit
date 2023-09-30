@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/layout/layout.dart';
 import 'package:flutter_boilerplate/cart/view/cart.dart';
 import 'package:flutter_boilerplate/chat/controller/chat.controller.dart';
@@ -16,6 +15,7 @@ import 'package:flutter_boilerplate/receive_product/view/form_return_product.dar
 import 'package:flutter_boilerplate/receive_product/view/receive_product.dart';
 import 'package:flutter_boilerplate/rental/view/add_product.dart';
 import 'package:flutter_boilerplate/rental/view/create_shop.dart';
+import 'package:flutter_boilerplate/rental/view/edit_product.dart';
 import 'package:flutter_boilerplate/rental/view/edit_shop.dart';
 import 'package:flutter_boilerplate/rental/view/my_shop.dart';
 import 'package:flutter_boilerplate/rental/view/order.dart';
@@ -23,6 +23,7 @@ import 'package:flutter_boilerplate/rental/view/rental_receive.dart';
 import 'package:flutter_boilerplate/rental/view/request_order.dart';
 import 'package:flutter_boilerplate/rental_check/view/rental_check.dart';
 import 'package:flutter_boilerplate/setting/view/setting.dart';
+import 'package:flutter_boilerplate/signin/view/forgot_pass.dart';
 import 'package:flutter_boilerplate/signin/view/sigin.dart';
 import 'package:flutter_boilerplate/signup/view/signup.dart';
 import 'package:get/get.dart';
@@ -52,6 +53,8 @@ class RouteConstants {
   static String history = '/history';
   static String rentalCheck = '/rentalCheck';
   static String editProfile = '/editProfile';
+  static String editProduct = '/editProduct';
+  static String forgotPass = '/forgotPass';
 
   static List<GetPage> page = [
     GetPage(name: layout, page: () => const Layout()),
@@ -88,5 +91,7 @@ class RouteConstants {
     GetPage(name: history, page: (() => const History())),
     GetPage(name: rentalCheck, page: (() => const RentalCheck())),
     GetPage(name: editProfile, page: (() => const EditProfile())),
+    GetPage(name: editProduct, page: (() => const EditProduct())),
+    GetPage(name: forgotPass, page: (() => const ForgotPassword())),
   ];
 }

@@ -9,14 +9,14 @@ import 'package:get/get.dart';
 
 class SignUp extends GetView<SignUpController> {
   SignUp({super.key});
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  TextEditingController _nameController = TextEditingController();
-  TextEditingController _phoneController = TextEditingController();
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
-  TextEditingController _conpasswordController = TextEditingController();
-  TextEditingController _addressController = TextEditingController();
+  final TextEditingController _nameController = TextEditingController();
+  final TextEditingController _phoneController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _conpasswordController = TextEditingController();
+  final TextEditingController _addressController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -52,6 +52,7 @@ class SignUp extends GetView<SignUpController> {
                         if (value!.isEmpty) {
                           return "this field is required".tr;
                         }
+                        return null;
                       },
                     ),
                     CustomTextFormField(
@@ -67,6 +68,7 @@ class SignUp extends GetView<SignUpController> {
                         if (value!.isEmpty) {
                           return "this field is required".tr;
                         }
+                        return null;
                       },
                     ),
                     CustomTextFormField(
@@ -77,6 +79,7 @@ class SignUp extends GetView<SignUpController> {
                         if (value!.isEmpty) {
                           return "this field is required".tr;
                         }
+                        return null;
                       },
                     ),
                     CustomTextFormField(
@@ -87,6 +90,7 @@ class SignUp extends GetView<SignUpController> {
                         if (value!.isEmpty) {
                           return "this field is required".tr;
                         }
+                        return null;
                       },
                     ),
                     CustomTextFormField(
@@ -100,6 +104,7 @@ class SignUp extends GetView<SignUpController> {
                         if (value != _passwordController.text) {
                           return "Passwords do not match".tr;
                         }
+                        return null;
                       },
                     ),
                     CustomTextFormField(
@@ -111,6 +116,7 @@ class SignUp extends GetView<SignUpController> {
                         if (value!.isEmpty) {
                           return "this field is required".tr;
                         }
+                        return null;
                       },
                     ),
                     Center(

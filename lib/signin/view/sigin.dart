@@ -1,8 +1,6 @@
-import "package:flash/flash.dart";
-import "package:flash/flash_helper.dart";
 import "package:flutter/material.dart";
 import "package:flutter_boilerplate/base/utils/constants/color.dart";
-import "package:flutter_boilerplate/base/utils/constants/enum.dart";
+import "package:flutter_boilerplate/base/utils/constants/route.dart";
 import "package:flutter_boilerplate/base/utils/constants/size.dart";
 import "package:flutter_boilerplate/base/widget/custom_button.dart";
 import "package:flutter_boilerplate/base/widget/custom_textformfield.dart";
@@ -12,10 +10,10 @@ import "package:get/get.dart";
 class SignIn extends GetView<SignInController> {
   SignIn({super.key});
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
-  TextEditingController _emailController = TextEditingController();
-  TextEditingController _passwordController = TextEditingController();
+  final TextEditingController _emailController = TextEditingController();
+  final TextEditingController _passwordController = TextEditingController();
 
   @override
   Widget build(BuildContext context) {
@@ -54,6 +52,7 @@ class SignIn extends GetView<SignInController> {
                         if (!GetUtils.isEmail(value)) {
                           return "Email is not valid";
                         }
+                        return null;
                       },
                     ),
                     CustomTextFormField(
@@ -66,13 +65,20 @@ class SignIn extends GetView<SignInController> {
                         if (value!.isEmpty) {
                           return "this field is required".tr;
                         }
+                        return null;
                       },
                     ),
-                    Padding(
-                      padding: const EdgeInsets.only(bottom: 24),
-                      child: Align(
-                        alignment: Alignment.centerRight,
-                        child: Text('forGotPassword'.tr),
+                    InkWell(
+                      onTap: () {
+                        debugPrint('Forgot password');
+                        Get.toNamed(RouteConstants.forgotPass);
+                      },
+                      child: Padding(
+                        padding: const EdgeInsets.only(bottom: 24),
+                        child: Align(
+                          alignment: Alignment.centerRight,
+                          child: Text('forGotPassword'.tr),
+                        ),
                       ),
                     ),
                     // 'login'.tr.toUpperCase()

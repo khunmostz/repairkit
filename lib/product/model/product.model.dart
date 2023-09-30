@@ -8,6 +8,7 @@ class ProductModel {
   String? productInfo;
   String? productImage;
   int? rating;
+  String? docId;
 
   ProductModel({
     this.rentalId,
@@ -19,6 +20,7 @@ class ProductModel {
     this.productInfo,
     this.productImage,
     this.rating,
+    this.docId,
   });
 
   ProductModel copyWith({
@@ -31,6 +33,7 @@ class ProductModel {
     String? productInfo,
     String? productImage,
     int? rating,
+    String? docId,
   }) =>
       ProductModel(
         rentalId: this.rentalId ?? rentalId,
@@ -42,5 +45,6 @@ class ProductModel {
         productInfo: this.productInfo ?? productInfo,
         productImage: this.productImage ?? productImage,
         rating: this.rating ?? rating,
+        docId: this.docId ?? docId,
       );
 }

@@ -12,7 +12,6 @@ import 'package:flutter_boilerplate/cart/model/cart.model.dart';
 import 'package:flutter_boilerplate/chat/controller/chat.controller.dart';
 import 'package:flutter_boilerplate/product/controller/product.controller.dart';
 import 'package:flutter_boilerplate/product/model/product.model.dart';
-import 'package:flutter_rating_bar/flutter_rating_bar.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:get/get.dart';
 
@@ -70,25 +69,25 @@ class ProductDetail extends GetView<ProductController> {
                 ],
               ),
             ),
-            Padding(
-              padding: const EdgeInsets.only(left: 24, bottom: 20),
-              child: RatingBar.builder(
-                initialRating: productModel.rating?.toDouble() ?? 0.0,
-                minRating: 1,
-                direction: Axis.horizontal,
-                itemCount: 5,
-                itemSize: 20,
-                ignoreGestures: true,
-                itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
-                itemBuilder: (context, _) => const Icon(
-                  Icons.star,
-                  color: Colors.amber,
-                ),
-                onRatingUpdate: (rating) {
-                  debugPrint(rating.toString());
-                },
-              ),
-            ),
+            // Padding(
+            //   padding: const EdgeInsets.only(left: 24, bottom: 20),
+            //   child: RatingBar.builder(
+            //     initialRating: productModel.rating?.toDouble() ?? 0.0,
+            //     minRating: 1,
+            //     direction: Axis.horizontal,
+            //     itemCount: 5,
+            //     itemSize: 20,
+            //     ignoreGestures: true,
+            //     itemPadding: const EdgeInsets.symmetric(horizontal: 4.0),
+            //     itemBuilder: (context, _) => const Icon(
+            //       Icons.star,
+            //       color: Colors.amber,
+            //     ),
+            //     onRatingUpdate: (rating) {
+            //       debugPrint(rating.toString());
+            //     },
+            //   ),
+            // ),
             Divider(
               color: ColorConstants.COLOR_GREY,
             ),
@@ -261,10 +260,11 @@ class ProductDetail extends GetView<ProductController> {
                                       productTotal:
                                           controller.totalPrice.toString(),
                                       dayOfRent: controller.day,
-                                      rentalName: controller.rentalModel?.rentalName,
+                                      rentalName:
+                                          controller.rentalModel?.rentalName,
                                       trackingCompany: '-',
                                       trackingProduct: '-',
-                                      acceptItem:false,
+                                      acceptItem: false,
                                     ),
                                   );
                                   showToast(context,

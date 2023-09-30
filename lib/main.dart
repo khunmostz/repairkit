@@ -37,11 +37,11 @@ Future<void> main() async {
 
 void getTokenFcmFromLocal() {
   if (GetStorageService.getFcmToLocal() != '' &&
-      GetStorageService.getFcmToLocal() != null ) {
-        String? fcmToken = GetStorageService.getFcmToLocal();
+      GetStorageService.getFcmToLocal() != null) {
+    String? fcmToken = GetStorageService.getFcmToLocal();
     getIt<GlobalStateService>().setFcmToken(fcmToken);
-    debugPrint('==== fcmToken: ${ getIt<GlobalStateService>().fcmToken} ====');
-  }else{
+    debugPrint('==== fcmToken: ${getIt<GlobalStateService>().fcmToken} ====');
+  } else {
     debugPrint('==== fcmToken: Not found!! ====');
   }
 }
@@ -66,6 +66,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetBuilder<ThemeController>(builder: (_) {
           return GetMaterialApp(
+            debugShowCheckedModeBanner: false,
             title: 'Rent a repaire kit',
             theme: lightTheme,
             darkTheme: darkTheme,

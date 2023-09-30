@@ -24,11 +24,11 @@ class PaymentController extends GetxController {
           _firebaseFirestore
               .collection('receive-product')
               .doc(
-                  '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}')
+                  '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}')
               .set({
             "uid": FirebaseAuth.instance.currentUser?.uid,
             "docId":
-                '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}',
+                '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}',
             "product": Get.find<CartController>().cartList?[i].productName,
             "productImage":
                 Get.find<CartController>().cartList?[i].productImage,
@@ -41,22 +41,24 @@ class PaymentController extends GetxController {
                 Get.find<CartController>().cartList?[i].trackingCompany,
             "acceptItem": Get.find<CartController>().cartList?[i].acceptItem,
             "rentalName": Get.find<CartController>().cartList?[i].rentalName,
+            "eachPrice": Get.find<CartController>().cartList?[i].productPrice,
             "createdAt": DateTime.now().millisecondsSinceEpoch,
           });
           _firebaseFirestore
               .collection('order-product')
               .doc(
-                  '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}')
+                  '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}')
               .set({
             "uid": FirebaseAuth.instance.currentUser?.uid,
             "docId":
-                '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}',
+                '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}',
             "product": Get.find<CartController>().cartList?[i].productName,
             "productImage":
                 Get.find<CartController>().cartList?[i].productImage,
             "rentDay": Get.find<CartController>().cartList?[i].dayOfRent,
             "productAmount":
                 Get.find<CartController>().cartList?[i].productAmout,
+            "eachPrice": Get.find<CartController>().cartList?[i].productPrice,
             "trackingProduct":
                 Get.find<CartController>().cartList?[i].trackingProduct,
             "trackingCompany":
@@ -68,11 +70,11 @@ class PaymentController extends GetxController {
           _firebaseFirestore
               .collection('history')
               .doc(
-                  '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}')
+                  '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}')
               .set({
             "uid": FirebaseAuth.instance.currentUser?.uid,
             "docId":
-                '${FirebaseAuth.instance.currentUser?.uid}${num}${Get.find<CartController>().cartList?[i].productName}',
+                '${FirebaseAuth.instance.currentUser?.uid}$num${Get.find<CartController>().cartList?[i].productName}',
             "product": Get.find<CartController>().cartList?[i].productName,
             "productImage":
                 Get.find<CartController>().cartList?[i].productImage,
@@ -81,6 +83,7 @@ class PaymentController extends GetxController {
                 Get.find<CartController>().cartList?[i].productAmout,
             "trackingProduct":
                 Get.find<CartController>().cartList?[i].trackingProduct,
+            "eachPrice": Get.find<CartController>().cartList?[i].productPrice,
             "trackingCompany":
                 Get.find<CartController>().cartList?[i].trackingCompany,
             "acceptItem": Get.find<CartController>().cartList?[i].acceptItem,

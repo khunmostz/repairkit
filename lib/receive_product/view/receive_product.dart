@@ -23,6 +23,7 @@ class _ReceiveProductState extends State<ReceiveProduct> {
     // TODO: implement initState
     super.initState();
     controller.getReceivceProduct();
+     controller.selectedTab = 'รับสินค้า';
   }
 
   @override

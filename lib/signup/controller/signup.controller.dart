@@ -33,6 +33,7 @@ class SignUpController extends GetxController {
         'phone': phone,
         'address': address,
         'status': false,
+        'imageProfile': null,
         'uid': _firebaseAuth.currentUser?.uid,
         'fcmToken': await messaging.getToken()
       });

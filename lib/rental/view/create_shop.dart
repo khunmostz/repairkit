@@ -1,6 +1,7 @@
 import 'dart:io';
 
 import 'package:flutter/material.dart';
+import 'package:flutter/services.dart';
 import 'package:flutter_boilerplate/base/utils/constants/color.dart';
 import 'package:flutter_boilerplate/base/utils/constants/size.dart';
 import 'package:flutter_boilerplate/base/widget/base_scaffold.dart';
@@ -33,7 +34,7 @@ class _CreateShopState extends State<CreateShop> {
 
   var controller = Get.find<RentalController>();
 
-  GlobalKey<FormState> _formKey = GlobalKey<FormState>();
+  final GlobalKey<FormState> _formKey = GlobalKey<FormState>();
 
   TextEditingController rentalNameController = TextEditingController();
   TextEditingController identificationController = TextEditingController();
@@ -101,10 +102,15 @@ class _CreateShopState extends State<CreateShop> {
                     padding: const EdgeInsets.only(left: 24),
                     child: Row(
                       children: [
-                        const Expanded(
+                        Expanded(
                           child: CustomTextFormField(
                             label: 'เพิ่มรูปถ่าย บัตรประจำตัวประชาชน',
                             showBorder: true,
+                            keyboardType: TextInputType.number,
+                            inputFormatters: [
+                              LengthLimitingTextInputFormatter(13),
+                              FilteringTextInputFormatter.digitsOnly
+                            ],
                           ),
                         ),
                         Expanded(
@@ -166,6 +172,11 @@ class _CreateShopState extends State<CreateShop> {
                       label: 'หมายเลขโทรศัพท์',
                       showBorder: true,
                       controller: rentalPhoneController,
+                      keyboardType: TextInputType.number,
+                      inputFormatters: [
+                        LengthLimitingTextInputFormatter(10),
+                        FilteringTextInputFormatter.digitsOnly
+                      ],
                       validator: (value) {
                         if (value!.isEmpty) {
                           return "this field is required".tr;

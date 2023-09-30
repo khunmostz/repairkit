@@ -10,6 +10,7 @@ import 'package:flutter_boilerplate/base/widget/custom_toast.dart';
 import 'package:flutter_boilerplate/cart/controller/cart.controller.dart';
 import 'package:flutter_boilerplate/payment/controller/payment.controller.dart';
 import 'package:flutter_boilerplate/payment/service/omise.service.dart';
+import 'package:flutter_boilerplate/rental_check/controller/rental_check.controller.dart';
 import 'package:flutter_multi_formatter/flutter_multi_formatter.dart';
 import 'package:get/get.dart';
 import 'package:awesome_card/awesome_card.dart';
@@ -117,12 +118,13 @@ class _PaymentState extends State<Payment> {
                         cvc: int.parse(cvcController.text),
                       )
                           .then((value) async {
+                            print(Get.find<CartController>().totalCart);
                         var response = await OmiseService().chargesCard(
                           description:
                               'Buy with ${FirebaseAuth.instance.currentUser?.email}',
-                          amount: Get.find<CartController>().totalCart.toString(),
+                          amount: Get.find<CartController>().totalCart != 0 ? "${Get.find<CartController>().totalCart}" : "${Get.find<RentalCheckController>().totalPrice}",
                         );
-                        // print(response);
+                        print(response);
                 
                         if (mounted && response['status'] == 'successful') {
                       

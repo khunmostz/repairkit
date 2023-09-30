@@ -42,7 +42,7 @@ class ReceviceController extends GetxController {
   @override
   void onInit() {
     super.onInit();
-    
+    selectedTab = 'รับสินค้า';
   }
 
   Future<void> getRentalByName() async {

@@ -60,6 +60,7 @@ class Product extends GetView<ProductController> {
                     crossAxisCount: 2,
                     mainAxisSpacing: 10,
                     crossAxisSpacing: 10,
+                    mainAxisExtent: 250,
                   ),
                   itemCount: controller.product?.length,
                   itemBuilder: (context, index) {
@@ -104,14 +105,13 @@ class Product extends GetView<ProductController> {
                               bottom: 0,
                               child: Container(
                                 width: size.width,
-                                height: 50,
+                                height: 90,
                                 color:
                                     ColorConstants.COLOR_BLACK.withOpacity(0.5),
                                 child: Padding(
                                   padding: const EdgeInsets.all(16.0),
                                   child: Text(
-                                    controller.product?[index].productName ??
-                                        '',
+                                    '${controller.product?[index].productName ?? ""}\n${controller.product?[index].productPrice ?? "-"} บาท\n${controller.product?[index].productAmount ?? "-"} ชิ้น',
                                     style: TextStyle(
                                         color: ColorConstants.COLOR_WHITE),
                                   ),

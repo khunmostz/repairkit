@@ -19,6 +19,8 @@ import 'package:timezone/data/latest.dart' as tz;
 @pragma('vm:entry-point')
 Future<void> _firebaseMessagingBackgroundHandler(RemoteMessage message) async {
   debugPrint("Handling a background message: ${message.messageId}");
+  await NotificationService().initNotification();
+  // await NotificationService().initializeFirebaseMessaging();
 }
 
 Future<void> main() async {
@@ -27,7 +29,7 @@ Future<void> main() async {
   await GetStorage.init();
   await ScreenUtil.ensureScreenSize();
   await NotificationService().initNotification();
-  await NotificationService.setFcmPermission();
+  await NotificationService().initializeFirebaseMessaging();
   FirebaseMessaging.onBackgroundMessage(_firebaseMessagingBackgroundHandler);
   await setupTimezone();
   setupGetIt();
@@ -66,6 +68,7 @@ class MyApp extends StatelessWidget {
       builder: (context, child) {
         return GetBuilder<ThemeController>(builder: (_) {
           return GetMaterialApp(
+            navigatorKey: Get.key,
             debugShowCheckedModeBanner: false,
             title: 'Rent a repaire kit',
             theme: lightTheme,

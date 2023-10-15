@@ -64,8 +64,18 @@ class ProductDetail extends GetView<ProductController> {
               child: Row(
                 mainAxisAlignment: MainAxisAlignment.spaceBetween,
                 children: [
-                  Text('Price product ${productModel.productPrice ?? ''}'),
-                  const Text('each 1 day'),
+                  Text('ราคาสินค้า ${productModel.productPrice ?? ''}'),
+                  const Text('ต่อ 1 วัน'),
+                ],
+              ),
+            ),
+            Padding(
+              padding: const EdgeInsets.symmetric(horizontal: 24),
+              child: Row(
+                mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                children: [
+                  Text(
+                      'จำนวนสินค้าที่เหลือ  ${productModel.productAmount ?? ''} ชิ้น'),
                 ],
               ),
             ),

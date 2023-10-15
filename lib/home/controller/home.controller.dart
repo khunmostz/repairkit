@@ -7,16 +7,15 @@ import 'package:flutter_boilerplate/base/utils/service_locator.dart';
 import 'package:get/get.dart';
 
 class HomeController extends GetxController {
-  FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
-  FirebaseFirestore _firestore = FirebaseFirestore.instance;
+  final FirebaseAuth _firebaseAuth = FirebaseAuth.instance;
+  final FirebaseFirestore _firestore = FirebaseFirestore.instance;
 
   List<String> bannerCarousel = [
-  "https://firebasestorage.googleapis.com/v0/b/rent-a-repaire-kit.appspot.com/o/banner-upload%2F60939384ca6f2-80009018-Mobile-AXS-%E0%B8%A2%E0%B8%B9%E0%B9%80%E0%B8%99%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B8%B1%E0%B8%84%E0%B9%81%E0%B8%AD%E0%B8%99%E0%B8%94%E0%B9%8C%E0%B8%97%E0%B8%B9%E0%B8%A5%E0%B8%AA%E0%B9%8C-%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B9%80%E0%B8%8A%E0%B9%88%E0%B8%B2%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87%E0%B8%9B%E0%B8%97%E0%B8%B8%E0%B8%A1%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%B5.jpg?alt=media&token=5c3fc531-2804-483e-92d5-381e3ac314e4",
-  "https://firebasestorage.googleapis.com/v0/b/rent-a-repaire-kit.appspot.com/o/banner-upload%2Ftimeline_25600301_223138.jpg?alt=media&token=eb455f9e-ac83-490d-ac57-db9c329383cb",
-  "https://firebasestorage.googleapis.com/v0/b/rent-a-repaire-kit.appspot.com/o/banner-upload%2Facohdcbknwqz.jpg?alt=media&token=81f36c88-c8b9-4e7e-8ef0-2e8440dc787e",
-  "https://firebasestorage.googleapis.com/v0/b/rent-a-repaire-kit.appspot.com/o/banner-upload%2Fslide01.jpg?alt=media&token=6b08e8fe-6146-46c4-ac90-bc6076f47015",
+    "https://firebasestorage.googleapis.com/v0/b/rent-a-repaire-kit.appspot.com/o/banner-upload%2F60939384ca6f2-80009018-Mobile-AXS-%E0%B8%A2%E0%B8%B9%E0%B9%80%E0%B8%99%E0%B8%B5%E0%B9%88%E0%B8%A2%E0%B8%99%E0%B8%97%E0%B8%A3%E0%B8%B1%E0%B8%84%E0%B9%81%E0%B8%AD%E0%B8%99%E0%B8%94%E0%B9%8C%E0%B8%97%E0%B8%B9%E0%B8%A5%E0%B8%AA%E0%B9%8C-%E0%B9%83%E0%B8%AB%E0%B9%89%E0%B9%80%E0%B8%8A%E0%B9%88%E0%B8%B2%E0%B9%80%E0%B8%84%E0%B8%A3%E0%B8%B7%E0%B9%88%E0%B8%AD%E0%B8%87%E0%B8%A1%E0%B8%B7%E0%B8%AD%E0%B8%81%E0%B9%88%E0%B8%AD%E0%B8%AA%E0%B8%A3%E0%B9%89%E0%B8%B2%E0%B8%87%E0%B8%9B%E0%B8%97%E0%B8%B8%E0%B8%A1%E0%B8%98%E0%B8%B2%E0%B8%99%E0%B8%B5.jpg?alt=media&token=5c3fc531-2804-483e-92d5-381e3ac314e4",
+    "https://firebasestorage.googleapis.com/v0/b/rent-a-repaire-kit.appspot.com/o/banner-upload%2Ftimeline_25600301_223138.jpg?alt=media&token=eb455f9e-ac83-490d-ac57-db9c329383cb",
+    "https://firebasestorage.googleapis.com/v0/b/rent-a-repaire-kit.appspot.com/o/banner-upload%2Facohdcbknwqz.jpg?alt=media&token=81f36c88-c8b9-4e7e-8ef0-2e8440dc787e",
+    "https://firebasestorage.googleapis.com/v0/b/rent-a-repaire-kit.appspot.com/o/banner-upload%2Fslide01.jpg?alt=media&token=6b08e8fe-6146-46c4-ac90-bc6076f47015",
   ];
-
 
   List<Map<String, String>> categoryList = [
     {

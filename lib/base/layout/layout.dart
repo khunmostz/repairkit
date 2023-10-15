@@ -26,9 +26,7 @@ class Layout extends GetView<LayoutController> {
             // margin: const EdgeInsets.all(20),
             width: size.width,
             height: 60.h,
-            decoration: BoxDecoration(
-              color: ColorConstants.COLOR_BLUE
-            ),
+            decoration: BoxDecoration(color: ColorConstants.COLOR_BLUE),
             child: GetBuilder<LayoutController>(builder: (_) {
               return Row(
                 mainAxisAlignment: MainAxisAlignment.spaceAround,
@@ -38,10 +36,12 @@ class Layout extends GetView<LayoutController> {
                       onTap: () {
                         controller.changeScreen(i);
                         switch (controller.screenArguments[i]['name']) {
+                          case 'Home':
+                            controller.updateUserFcm();
+                            break;
                           case 'Chat':
-
                             Get.find<ChatController>().getRoom();
-                          
+
                             break;
                           default:
                         }

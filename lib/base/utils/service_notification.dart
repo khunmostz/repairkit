@@ -1,8 +1,6 @@
 import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
-import 'package:flutter_boilerplate/base/utils/get_storage.dart';
-import 'package:flutter_boilerplate/base/utils/service_locator.dart';
-import 'package:flutter_boilerplate/home/controller/home.controller.dart';
+import 'package:flutter_boilerplate/base/utils/constants/route.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 import 'package:get/get.dart';
 
@@ -46,10 +44,9 @@ class NotificationService {
         id, title, body, await notificationDetails());
   }
 
-  static Future<void> setFcmPermission() async {
-    FirebaseMessaging messaging = FirebaseMessaging.instance;
-
-    NotificationSettings settings = await messaging.requestPermission(
+  Future<void> initializeFirebaseMessaging() async {
+    NotificationSettings settings =
+        await FirebaseMessaging.instance.requestPermission(
       alert: true,
       announcement: true,
       badge: true,
@@ -67,32 +64,31 @@ class NotificationService {
     } else {
       debugPrint('User declied or has not accepted permisstion');
     }
-    FirebaseMessaging.onMessage.listen((RemoteMessage message) {
+
+    FirebaseMessaging.onMessage.listen((message) {
       debugPrint('Got a message whilst in the foreground!');
-      // debugPrint('Message data: ${message.data}');
-
-      if (message.notification != null) {
-        debugPrint(
-            'Message also contained a notification: ${message.notification?.body}');
-
-        // NotificationService().showNotification(
-        //   title: message.notification?.title,
-        //   body: message.notification?.body,
-        // );
-      }
+      debugPrint('Message data: ${message.data}');
     });
 
-    FirebaseMessaging.instance.onTokenRefresh.listen((fcmToken) {
-      // TODO: If necessary send token to application server.
-      debugPrint('refresh fcmToken: $fcmToken');
-      GetStorageService.clearFcmToLocal();
-      GetStorageService.setFcmToLocal(fcmToken);
-      getIt<GlobalStateService>().setFcmToken(fcmToken);
-      // Get.find<HomeController>().updateToken(fcmToken: fcmToken);
-      // Note: This callback is fired at each app startup and whenever a new
-      // token is generated.
-    }).onError((err) {
-      // Error getting token.
-    });
+    initPushNoti();
+  }
+
+  void _handleMessage(RemoteMessage? message) {
+    if (message == null) return;
+
+    NotificationService().showNotification(
+      title: message.notification?.title,
+      body: message.notification?.body,
+    );
+
+    if (message.notification?.title == "แจ้งเตือนออเดอร์") {
+      Get.key.currentState!.pushNamed(RouteConstants.myShop);
+    }
+  }
+
+  Future<void> initPushNoti() async {
+    FirebaseMessaging.instance.getInitialMessage().then((_) => _handleMessage);
+
+    FirebaseMessaging.onMessageOpenedApp.listen(_handleMessage);
   }
 }

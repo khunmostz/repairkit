@@ -1,6 +1,10 @@
+import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
+import 'package:firebase_messaging/firebase_messaging.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_boilerplate/base/utils/constants/route.dart';
+import 'package:flutter_boilerplate/base/utils/get_storage.dart';
+import 'package:flutter_boilerplate/base/utils/service_locator.dart';
 import 'package:flutter_boilerplate/chat/view/chatlist.dart';
 import 'package:flutter_boilerplate/home/view/home.dart';
 import 'package:flutter_boilerplate/profie/view/profile.dart';
@@ -13,7 +17,7 @@ class LayoutController extends GetxController {
   //#region variable layout
   int screenIndex = 0;
   List<Widget> screen = [
-    Home(),
+    const Home(),
     const ChatList(),
     const RentalCheck(),
     const Profile(),
@@ -51,6 +55,23 @@ class LayoutController extends GetxController {
         Get.offNamed(RouteConstants.layout);
       }
     });
+  }
+
+  Future<void> updateUserFcm() async {
+    try {
+      var fcmToken = await FirebaseMessaging.instance.getToken();
+
+      var user = await FirebaseFirestore.instance
+          .collection('users')
+          .doc(FirebaseAuth.instance.currentUser?.email)
+          .update({
+        "fcmToken": fcmToken,
+      });
+      GetStorageService.setFcmToLocal(fcmToken ?? '');
+      getIt<GlobalStateService>().setFcmToken(fcmToken);
+    } catch (e) {
+      debugPrint(e.toString());
+    }
   }
 
   void changeScreen(int index) async {
